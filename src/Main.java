@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -53,8 +54,7 @@ public class Main {
             System.out.println("COMPUTER: Done! Text was copied into clipboard.");
         }
         catch (Exception e) {
-            // FIXME: 12/13/16 //ERROR 350
-            System.out.println("COMPUTER: Error. " + e.getMessage() + ".");
+            System.out.println("COMPUTER: [Starter] Error. " + e.getMessage() + ".");
         }
         ask();
     }
@@ -135,7 +135,7 @@ public class Main {
         varIntNumberChangedChars = objChangeData.getCountOfChanges();
 
         for (char varChar : arrayCharFromString) {
-            varStringLineToClipboard = varStringLineToClipboard + varChar;
+            varStringLineToClipboard += varChar;
         }
 
         if (varIntNumberChangedChars > 0) {
@@ -177,7 +177,7 @@ public class Main {
         varIntNumberChangedChars = objChangeData.getCountOfChanges();
 
         for (char varChar : arrayCharFromString) {
-            varStringLineToClipboard = varStringLineToClipboard + varChar;
+            varStringLineToClipboard += varChar;
         }
 
         if (varIntNumberChangedChars > 0) {
@@ -190,40 +190,52 @@ public class Main {
 
     private char[] insertAndRemoveSpace(char[] arrayCharText, char varCharCondition) {
 
-        for (int i = 0; i < arrayCharText.length; i++) {
-            if (arrayCharText[i] == varCharCondition) {
-                if (arrayCharText[i+1] != ' ') {
-                    char[] arrayCharTextNew =
-                            new char[arrayCharText.length+1];
-                    int ja = 0;
-                    for (int j = 0; j < arrayCharTextNew.length; j++) {
-                        if (j != i+1) {
-                            arrayCharTextNew[j] = arrayCharText[ja];
-                            ja++;
-                        } else {
-                            arrayCharTextNew[j] = ' ';
-                        }
-                    }
-                    return insertAndRemoveSpace(arrayCharTextNew, varCharCondition);
-                } else {
-                    if (i > 1) {
-                        if (arrayCharText[i - 1] == ' ') {
-                            char[] arrayCharTextNew =
-                                    new char[arrayCharText.length+1];
-                            int ja = 0;
-                            for (int j = 0; j < arrayCharTextNew.length; j++) {
-                                if (j != i-1) {
-                                    arrayCharTextNew[j] = arrayCharText[ja];
-                                    ja++;
-                                } else {
-                                    ja++;
-                                }
+        try {
+            for (int i = 0; i < arrayCharText.length; i++) {
+                if (arrayCharText[i] == varCharCondition) {
+                    if (arrayCharText[i + 1] != ' ') {
+                        ArrayList<Character> objArrayList =
+                                new ArrayList<>();
+                        for (int j = 0; j < arrayCharText.length; j++) {
+                            if (j == i+1) {
+                                objArrayList.add(' ');
                             }
-                            return insertAndRemoveSpace(arrayCharTextNew, varCharCondition);
+                            objArrayList.add(arrayCharText[j]);
+                        }
+
+                        char[] arrayCharTextNew =
+                                new char[objArrayList.size()];
+
+                        for (int j = 0; j < objArrayList.size(); j++) {
+                            arrayCharTextNew[j] = objArrayList.get(j);
+                        }
+                        return insertAndRemoveSpace(arrayCharTextNew, varCharCondition);
+                    } else {
+                        if (i > 1) {
+                            if (arrayCharText[i - 1] == ' ') {
+                                ArrayList<Character> objArrayList =
+                                        new ArrayList<>();
+                                for (int j = 0; j < arrayCharText.length; j++) {
+                                    if (j != i-1) {
+                                        objArrayList.add(arrayCharText[j]);
+                                    }
+                                }
+
+                                char[] arrayCharTextNew =
+                                        new char[objArrayList.size()];
+
+                                for (int j = 0; j < objArrayList.size(); j++) {
+                                    arrayCharTextNew[j] = objArrayList.get(j);
+                                }
+                                return insertAndRemoveSpace(arrayCharTextNew, varCharCondition);
+                            }
                         }
                     }
                 }
             }
+        }
+        catch (Exception e) {
+            System.out.println("COMPUTER: [insertAndRemoveSpace] Error. " + e.getMessage() + ".");
         }
 
         return arrayCharText;
@@ -231,30 +243,37 @@ public class Main {
 
     private char[] loverCaseText(char[] arrayCharText) {
 
-        String varString = "";
+        try {
+            String varString = "";
 
-        for (char varChar : arrayCharText) {
-            varString += varChar;
-        }
+            for (char varChar : arrayCharText) {
+                varString += varChar;
+            }
 
-        varString = varString.toLowerCase();
+            varString = varString.toLowerCase();
 
-        arrayCharText = varString.toCharArray();
+            arrayCharText = varString.toCharArray();
 
-        for (int i = 0; i < arrayCharText.length; i++) {
-            if (i == 0) {
-                varString = arrayCharText[i] + "";
-                varString = varString.toUpperCase();
-                arrayCharText[i] = varString.charAt(0);
-            } else {
-                if (i > 2) {
-                    if (arrayCharText[i - 2] == '.') {
-                        varString = arrayCharText[i] + "";
-                        varString = varString.toUpperCase();
-                        arrayCharText[i] = varString.charAt(0);
+            for (int i = 0; i < arrayCharText.length; i++) {
+                if (i == 0) {
+                    varString = arrayCharText[i] + "";
+                    varString = varString.toUpperCase();
+                    arrayCharText[i] = varString.charAt(0);
+                } else {
+                    if (i > 2) {
+                        if (arrayCharText[i - 2] == '.' ||
+                                arrayCharText[i - 2] == '!' ||
+                                arrayCharText[i - 2] == '?') {
+                            varString = arrayCharText[i] + "";
+                            varString = varString.toUpperCase();
+                            arrayCharText[i] = varString.charAt(0);
+                        }
                     }
                 }
             }
+        }
+        catch (Exception e) {
+            System.out.println("COMPUTER: [loverCaseText] Error. " + e.getMessage() + ".");
         }
 
         return arrayCharText;
@@ -262,22 +281,30 @@ public class Main {
 
     private String correctText(String varStringLineFromClipboard) {
 
-        varStringLineFromClipboard = varStringLineFromClipboard.toLowerCase();
+        try {
 
-        char[] arrayCharFromString = varStringLineFromClipboard.toCharArray();
+            varStringLineFromClipboard = varStringLineFromClipboard.toLowerCase();
 
-        arrayCharFromString = insertAndRemoveSpace(arrayCharFromString, '.');
-        arrayCharFromString = insertAndRemoveSpace(arrayCharFromString, ',');
+            char[] arrayCharFromString = varStringLineFromClipboard.toCharArray();
 
-        arrayCharFromString = loverCaseText(arrayCharFromString);
+            arrayCharFromString = insertAndRemoveSpace(arrayCharFromString, '!');
+            arrayCharFromString = insertAndRemoveSpace(arrayCharFromString, '?');
+            arrayCharFromString = insertAndRemoveSpace(arrayCharFromString, '.');
+            arrayCharFromString = insertAndRemoveSpace(arrayCharFromString, ',');
 
-        varStringLineFromClipboard = "";
+            arrayCharFromString = loverCaseText(arrayCharFromString);
 
-        for (char varChar : arrayCharFromString) {
-            varStringLineFromClipboard += varChar;
+            varStringLineFromClipboard = "";
+
+            for (char varChar : arrayCharFromString) {
+                varStringLineFromClipboard += varChar;
+            }
+
+            System.out.println("COMPUTER: Text was checked and corrected.");
         }
-
-        System.out.println("COMPUTER: Text was checked and corrected.");
+        catch (Exception e) {
+            System.out.println("COMPUTER: [correctText] Error. " + e.getMessage() + ".");
+        }
 
         return varStringLineFromClipboard;
     }
