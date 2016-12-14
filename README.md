@@ -1,2 +1,2 @@
 # TextChanger
-Console client for change of symbols in the text from clipboard.
+Console client for change of symbols and correct of mistakes in the text from clipboard.
