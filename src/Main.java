@@ -193,30 +193,37 @@ public class Main {
         try {
             for (int i = 0; i < arrayCharText.length; i++) {
                 if (arrayCharText[i] == varCharCondition) {
-                    if (arrayCharText[i + 1] != ' ') {
-                        ArrayList<Character> objArrayList =
-                                new ArrayList<>();
-                        for (int j = 0; j < arrayCharText.length; j++) {
-                            if (j == i+1) {
-                                objArrayList.add(' ');
+                    if (arrayCharText[i + 1] != '.' &&
+                            arrayCharText[i + 1] != '!' &&
+                            arrayCharText[i + 1] != '?') {
+                        if (arrayCharText[i + 1] != ' ') {
+                            ArrayList<Character> objArrayList =
+                                    new ArrayList<>();
+                            for (int j = 0; j < arrayCharText.length; j++) {
+                                if (j == i + 1) {
+                                    objArrayList.add(' ');
+                                }
+                                objArrayList.add(arrayCharText[j]);
                             }
-                            objArrayList.add(arrayCharText[j]);
-                        }
 
-                        char[] arrayCharTextNew =
-                                new char[objArrayList.size()];
+                            char[] arrayCharTextNew =
+                                    new char[objArrayList.size()];
 
-                        for (int j = 0; j < objArrayList.size(); j++) {
-                            arrayCharTextNew[j] = objArrayList.get(j);
+                            for (int j = 0; j < objArrayList.size(); j++) {
+                                arrayCharTextNew[j] = objArrayList.get(j);
+                            }
+                            return insertAndRemoveSpace(arrayCharTextNew, varCharCondition);
                         }
-                        return insertAndRemoveSpace(arrayCharTextNew, varCharCondition);
-                    } else {
-                        if (i > 1) {
+                    }
+                    if (i > 1) {
+                        if (arrayCharText[i - 1] != '.' &&
+                                arrayCharText[i - 1] != '!' &&
+                                arrayCharText[i - 1] != '?') {
                             if (arrayCharText[i - 1] == ' ') {
                                 ArrayList<Character> objArrayList =
                                         new ArrayList<>();
                                 for (int j = 0; j < arrayCharText.length; j++) {
-                                    if (j != i-1) {
+                                    if (j != i - 1) {
                                         objArrayList.add(arrayCharText[j]);
                                     }
                                 }
