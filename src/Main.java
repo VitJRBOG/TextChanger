@@ -60,25 +60,15 @@ public class Main {
     }
 
     private void ask() {
-        System.out.println("COMPUTER: Continue?");
+        System.out.println("COMPUTER: Press Enter for continue...");
         System.out.print("USER: ");
 
         Scanner objScanner =
                 new Scanner(System.in);
 
-        String varStringInput = objScanner.nextLine();
+        objScanner.nextLine();
 
-        if (varStringInput.equals("n")) {
-            System.out.println("COMPUTER: Close program...");
-            System.exit(0);
-        } else {
-            if (varStringInput.equals("y")) {
-                Starter();
-            } else {
-                System.out.println("COMPUTER: Please, enter only 'y' or 'n'.");
-                ask();
-            }
-        }
+        Starter();
     }
 
     private ChangeData changeChars(ChangeData objChangeData) {
@@ -188,44 +178,72 @@ public class Main {
         return varStringLineToClipboard;
     }
 
-    private char[] insertAndRemoveSpace(char[] arrayCharText, char varCharCondition) {
+    private char[] removeSpaceBeforePunctMark(char[] arrayCharText) {
 
         try {
+
+            char[] arrayCharSymbols = {
+                    '.', '!', '?', ',', ':', ')', ']'
+            };
+
             for (int i = 0; i < arrayCharText.length; i++) {
-                if (arrayCharText[i] == varCharCondition) {
-                    if (arrayCharText[i + 1] != '.' &&
-                            arrayCharText[i + 1] != '!' &&
-                            arrayCharText[i + 1] != '?') {
-                        if (arrayCharText[i + 1] != ' ') {
-                            ArrayList<Character> objArrayList =
-                                    new ArrayList<>();
-                            for (int j = 0; j < arrayCharText.length; j++) {
-                                if (j == i + 1) {
-                                    objArrayList.add(' ');
+                for (char varCharCondition : arrayCharSymbols) {
+                    if (arrayCharText[i] == varCharCondition) {
+                        if (i > 1) {
+                            if (arrayCharText[i - 1] != varCharCondition) {
+                                if (arrayCharText[i - 1] == ' ') {
+                                    ArrayList<Character> objArrayList =
+                                            new ArrayList<>();
+                                    for (int j = 0; j < arrayCharText.length; j++) {
+                                        if (j != i - 1) {
+                                            objArrayList.add(arrayCharText[j]);
+                                        }
+                                    }
+
+                                    char[] arrayCharTextNew =
+                                            new char[objArrayList.size()];
+
+                                    for (int j = 0; j < objArrayList.size(); j++) {
+                                        arrayCharTextNew[j] = objArrayList.get(j);
+                                    }
+                                    return insertSpaceAfterPunktMark(arrayCharTextNew);
                                 }
-                                objArrayList.add(arrayCharText[j]);
                             }
-
-                            char[] arrayCharTextNew =
-                                    new char[objArrayList.size()];
-
-                            for (int j = 0; j < objArrayList.size(); j++) {
-                                arrayCharTextNew[j] = objArrayList.get(j);
-                            }
-                            return insertAndRemoveSpace(arrayCharTextNew, varCharCondition);
                         }
+
                     }
-                    if (i > 1) {
-                        if (arrayCharText[i - 1] != '.' &&
-                                arrayCharText[i - 1] != '!' &&
-                                arrayCharText[i - 1] != '?') {
-                            if (arrayCharText[i - 1] == ' ') {
+                }
+            }
+
+
+        }
+        catch (Exception e) {
+            System.out.println("COMPUTER: [removeSpaceBeforePunctMark] Error. " + e.getMessage() + ".");
+        }
+
+        return arrayCharText;
+    }
+
+    private char[] insertSpaceAfterPunktMark(char[] arrayCharText) {
+
+        try {
+
+            char[] arrayCharSymbols = {
+                    '.', '!', '?', ',', ':'
+            };
+
+            for (int i = 0; i < arrayCharText.length; i++) {
+                for (char varCharCondition : arrayCharSymbols) {
+                    if (arrayCharText[i] == varCharCondition) {
+                        if (arrayCharText[i + 1] != varCharCondition) {
+                            if (arrayCharText[i + 1] != ' ') {
                                 ArrayList<Character> objArrayList =
                                         new ArrayList<>();
                                 for (int j = 0; j < arrayCharText.length; j++) {
-                                    if (j != i - 1) {
-                                        objArrayList.add(arrayCharText[j]);
+                                    if (j == i + 1) {
+                                        objArrayList.add(' ');
                                     }
+                                    objArrayList.add(arrayCharText[j]);
                                 }
 
                                 char[] arrayCharTextNew =
@@ -234,15 +252,15 @@ public class Main {
                                 for (int j = 0; j < objArrayList.size(); j++) {
                                     arrayCharTextNew[j] = objArrayList.get(j);
                                 }
-                                return insertAndRemoveSpace(arrayCharTextNew, varCharCondition);
+                                return removeSpaceBeforePunctMark(arrayCharTextNew);
                             }
                         }
                     }
                 }
             }
-        }
-        catch (Exception e) {
-            System.out.println("COMPUTER: [insertAndRemoveSpace] Error. " + e.getMessage() + ".");
+
+        } catch (Exception e) {
+            System.out.println("COMPUTER: [insertSpaceAfterPunktMark] Error. " + e.getMessage() + ".");
         }
 
         return arrayCharText;
@@ -251,6 +269,10 @@ public class Main {
     private char[] loverCaseText(char[] arrayCharText) {
 
         try {
+            char[] arrayCharSymbols = {
+                    '.', '!', '?'
+            };
+
             String varString = "";
 
             for (char varChar : arrayCharText) {
@@ -268,12 +290,12 @@ public class Main {
                     arrayCharText[i] = varString.charAt(0);
                 } else {
                     if (i > 2) {
-                        if (arrayCharText[i - 2] == '.' ||
-                                arrayCharText[i - 2] == '!' ||
-                                arrayCharText[i - 2] == '?') {
-                            varString = arrayCharText[i] + "";
-                            varString = varString.toUpperCase();
-                            arrayCharText[i] = varString.charAt(0);
+                        for (char varCharCondition : arrayCharSymbols) {
+                            if (arrayCharText[i - 2] == varCharCondition) {
+                                varString = arrayCharText[i] + "";
+                                varString = varString.toUpperCase();
+                                arrayCharText[i] = varString.charAt(0);
+                            }
                         }
                     }
                 }
@@ -294,11 +316,8 @@ public class Main {
 
             char[] arrayCharFromString = varStringLineFromClipboard.toCharArray();
 
-            arrayCharFromString = insertAndRemoveSpace(arrayCharFromString, '!');
-            arrayCharFromString = insertAndRemoveSpace(arrayCharFromString, '?');
-            arrayCharFromString = insertAndRemoveSpace(arrayCharFromString, '.');
-            arrayCharFromString = insertAndRemoveSpace(arrayCharFromString, ',');
-
+            arrayCharFromString = removeSpaceBeforePunctMark(arrayCharFromString);
+            arrayCharFromString = insertSpaceAfterPunktMark(arrayCharFromString);
             arrayCharFromString = loverCaseText(arrayCharFromString);
 
             varStringLineFromClipboard = "";
