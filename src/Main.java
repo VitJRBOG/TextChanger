@@ -315,7 +315,6 @@ public class Main {
             char[] arrayCharSymbols = {
                     '(', ')'
             };
-            //char varCharAdditionalCondition = ':';
 
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
@@ -349,6 +348,50 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("COMPUTER: [insertSpaceAfterDoubleParenthesis] Error. " + e.getMessage() + ".");
+        }
+
+        return arrayCharText;
+    }
+
+    private char[] removeSpaceAfterColonInSmiles(char[] arrayCharText) {
+
+        try {
+            char[] arrayCharSymbolsColons = {
+                    ':', ';'
+            };
+            char[] arrayCharSymbolsParenthesis = {
+                    '(', ')'
+            };
+
+            for (int i = 0; i < arrayCharText.length; i++) {
+                for (char varCharCondition : arrayCharSymbolsColons) {
+                    for (char varCharAdditionalCondition : arrayCharSymbolsParenthesis) {
+                        if (arrayCharText[i] == varCharCondition) {
+                            if (arrayCharText[i + 1] == ' ' &&
+                                    arrayCharText[i + 2] == varCharAdditionalCondition) {
+                                ArrayList<Character> objArrayList =
+                                        new ArrayList<>();
+                                for (int j = 0; j < arrayCharText.length; j++) {
+                                    if (j != i + 1) {
+                                        objArrayList.add(arrayCharText[j]);
+                                    }
+                                }
+
+                                char[] arrayCharTextNew =
+                                        new char[objArrayList.size()];
+
+                                for (int j = 0; j < objArrayList.size(); j++) {
+                                    arrayCharTextNew[j] = objArrayList.get(j);
+                                }
+                                return removeSpaceAfterColonInSmiles(arrayCharTextNew);
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("COMPUTER: [removeSpaceAfterColonInSmiles] Error. " + e.getMessage() + ".");
         }
 
         return arrayCharText;
@@ -422,6 +465,7 @@ public class Main {
             arrayCharFromString = insertSpaceAfterPunctMark(arrayCharFromString);
             arrayCharFromString = insertSpaceBeforeParenthesis(arrayCharFromString);
             arrayCharFromString = insertSpaceAfterDoubleParenthesis(arrayCharFromString);
+            arrayCharFromString = removeSpaceAfterColonInSmiles(arrayCharFromString);
             arrayCharFromString = upperCaseOfFirstLetters(arrayCharFromString);
 
             varStringLineFromClipboard = "";
