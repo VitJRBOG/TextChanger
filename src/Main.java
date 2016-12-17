@@ -206,7 +206,7 @@ public class Main {
                                     for (int j = 0; j < objArrayList.size(); j++) {
                                         arrayCharTextNew[j] = objArrayList.get(j);
                                     }
-                                    return insertSpaceAfterPunktMark(arrayCharTextNew);
+                                    return removeSpaceBeforePunctMark(arrayCharTextNew);
                                 }
                             }
                         }
@@ -224,12 +224,12 @@ public class Main {
         return arrayCharText;
     }
 
-    private char[] insertSpaceAfterPunktMark(char[] arrayCharText) {
+    private char[] insertSpaceAfterPunctMark(char[] arrayCharText) {
 
         try {
 
             char[] arrayCharSymbols = {
-                    '.', '!', '?', ',', ':'
+                    '.', '!', '?', ',', ':', ')', ']'
             };
 
             for (int i = 0; i < arrayCharText.length; i++) {
@@ -252,7 +252,7 @@ public class Main {
                                 for (int j = 0; j < objArrayList.size(); j++) {
                                     arrayCharTextNew[j] = objArrayList.get(j);
                                 }
-                                return removeSpaceBeforePunctMark(arrayCharTextNew);
+                                return insertSpaceAfterPunctMark(arrayCharTextNew);
                             }
                         }
                     }
@@ -260,18 +260,103 @@ public class Main {
             }
 
         } catch (Exception e) {
-            System.out.println("COMPUTER: [insertSpaceAfterPunktMark] Error. " + e.getMessage() + ".");
+            System.out.println("COMPUTER: [insertSpaceAfterPunctMark] Error. " + e.getMessage() + ".");
         }
 
         return arrayCharText;
     }
 
-    private char[] loverCaseText(char[] arrayCharText) {
+    private char[] insertSpaceBeforeParenthesis(char[] arrayCharText) {
+
+        try {
+
+            char[] arrayCharSymbols = {
+                    '('
+            };
+
+            for (int i = 0; i < arrayCharText.length; i++) {
+                for (char varCharCondition : arrayCharSymbols) {
+                    if (arrayCharText[i] == varCharCondition) {
+                        if (arrayCharText[i - 1] != varCharCondition &&
+                                arrayCharText[i + 1] != varCharCondition) {
+                            if (arrayCharText[i - 1] != ' ') {
+                                ArrayList<Character> objArrayList =
+                                        new ArrayList<>();
+                                for (int j = 0; j < arrayCharText.length; j++) {
+                                    if (j == i) {
+                                        objArrayList.add(' ');
+                                    }
+                                    objArrayList.add(arrayCharText[j]);
+                                }
+
+                                char[] arrayCharTextNew =
+                                        new char[objArrayList.size()];
+
+                                for (int j = 0; j < objArrayList.size(); j++) {
+                                    arrayCharTextNew[j] = objArrayList.get(j);
+                                }
+                                return insertSpaceBeforeParenthesis(arrayCharTextNew);
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("COMPUTER: [insertSpaceBeforeParenthesis] Error. " + e.getMessage() + ".");
+        }
+
+        return arrayCharText;
+    }
+
+    private char[] insertSpaceAfterDoubleParenthesis(char[] arrayCharText) {
 
         try {
             char[] arrayCharSymbols = {
-                    '.', '!', '?'
+                    '(', ')'
             };
+            //char varCharAdditionalCondition = ':';
+
+            for (int i = 0; i < arrayCharText.length; i++) {
+                for (char varCharCondition : arrayCharSymbols) {
+
+                    if (arrayCharText[i] == varCharCondition) {
+                        if (arrayCharText[i + 1] == varCharCondition &&
+                                arrayCharText[i + 2] != varCharCondition &&
+                                arrayCharText[i + 2] != ' ') {
+                            ArrayList<Character> objArrayList =
+                                    new ArrayList<>();
+                            for (int j = 0; j < arrayCharText.length; j++) {
+                                if (j == i + 2) {
+                                    objArrayList.add(' ');
+                                }
+
+                                objArrayList.add(arrayCharText[j]);
+                            }
+
+                            char[] arrayCharTextNew =
+                                    new char[objArrayList.size()];
+
+                            for (int j = 0; j < objArrayList.size(); j++) {
+                                arrayCharTextNew[j] = objArrayList.get(j);
+                            }
+                            return insertSpaceAfterDoubleParenthesis(arrayCharTextNew);
+                        }
+                    }
+
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("COMPUTER: [insertSpaceAfterDoubleParenthesis] Error. " + e.getMessage() + ".");
+        }
+
+        return arrayCharText;
+    }
+
+    private char[] upperCaseOfFirstLetters(char[] arrayCharText) {
+
+        try {
 
             String varString = "";
 
@@ -290,6 +375,10 @@ public class Main {
                     arrayCharText[i] = varString.charAt(0);
                 } else {
                     if (i > 2) {
+                        char[] arrayCharSymbols = {
+                                '.', '!', '?'
+                        };
+
                         for (char varCharCondition : arrayCharSymbols) {
                             if (arrayCharText[i - 2] == varCharCondition) {
                                 varString = arrayCharText[i] + "";
@@ -298,11 +387,24 @@ public class Main {
                             }
                         }
                     }
+
+                    char[] arrayCharSymbolsForSmiles = {
+                            '(', ')'
+                    };
+
+                    for (char varCharCondition : arrayCharSymbolsForSmiles) {
+                        if (arrayCharText[i + 1] == varCharCondition &&
+                                arrayCharText[i + 2] == ' ') {
+                            varString = arrayCharText[i + 3] + "";
+                            varString = varString.toUpperCase();
+                            arrayCharText[i + 3] = varString.charAt(0);
+                        }
+                    }
                 }
             }
         }
         catch (Exception e) {
-            System.out.println("COMPUTER: [loverCaseText] Error. " + e.getMessage() + ".");
+            System.out.println("COMPUTER: [upperCaseOfFirstLetters] Error. " + e.getMessage() + ".");
         }
 
         return arrayCharText;
@@ -317,8 +419,10 @@ public class Main {
             char[] arrayCharFromString = varStringLineFromClipboard.toCharArray();
 
             arrayCharFromString = removeSpaceBeforePunctMark(arrayCharFromString);
-            arrayCharFromString = insertSpaceAfterPunktMark(arrayCharFromString);
-            arrayCharFromString = loverCaseText(arrayCharFromString);
+            arrayCharFromString = insertSpaceAfterPunctMark(arrayCharFromString);
+            arrayCharFromString = insertSpaceBeforeParenthesis(arrayCharFromString);
+            arrayCharFromString = insertSpaceAfterDoubleParenthesis(arrayCharFromString);
+            arrayCharFromString = upperCaseOfFirstLetters(arrayCharFromString);
 
             varStringLineFromClipboard = "";
 
