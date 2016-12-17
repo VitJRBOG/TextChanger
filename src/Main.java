@@ -357,7 +357,7 @@ public class Main {
 
         try {
             char[] arrayCharSymbolsColons = {
-                    ':', ';'
+                    ':', ';', '='
             };
             char[] arrayCharSymbolsParenthesis = {
                     '(', ')'
@@ -392,6 +392,38 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("COMPUTER: [removeSpaceAfterColonInSmiles] Error. " + e.getMessage() + ".");
+        }
+
+        return arrayCharText;
+    }
+
+    private char[] removeDoubleSpace(char[] arrayCharText) {
+
+        try {
+
+            for (int i = 0; i < arrayCharText.length; i++) {
+                if (arrayCharText[i] == ' ' &&
+                        arrayCharText[i + 1] == ' ' ||
+                        arrayCharText[i] == '\n') {
+                    ArrayList<Character> objArrayList =
+                            new ArrayList<>();
+                    for (int j = 0; j < arrayCharText.length; j++) {
+                        if (j != i) {
+                            objArrayList.add(arrayCharText[j]);
+                        }
+                    }
+
+                    char[] arrayCharTextNew =
+                            new char[objArrayList.size()];
+
+                    for (int j = 0; j < objArrayList.size(); j++) {
+                        arrayCharTextNew[j] = objArrayList.get(j);
+                    }
+                    return removeDoubleSpace(arrayCharTextNew);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("COMPUTER: [removeDoubleSpace] Error. " + e.getMessage() + ".");
         }
 
         return arrayCharText;
@@ -443,6 +475,13 @@ public class Main {
                             arrayCharText[i + 3] = varString.charAt(0);
                         }
                     }
+
+                    if (arrayCharText[i] == '\n' &&
+                            arrayCharText[i + 1] != ' ') {
+                        varString = arrayCharText[i + 1] + "";
+                        varString = varString.toUpperCase();
+                        arrayCharText[i + 1] = varString.charAt(0);
+                    }
                 }
             }
         }
@@ -466,6 +505,7 @@ public class Main {
             arrayCharFromString = insertSpaceBeforeParenthesis(arrayCharFromString);
             arrayCharFromString = insertSpaceAfterDoubleParenthesis(arrayCharFromString);
             arrayCharFromString = removeSpaceAfterColonInSmiles(arrayCharFromString);
+            arrayCharFromString = removeDoubleSpace(arrayCharFromString);
             arrayCharFromString = upperCaseOfFirstLetters(arrayCharFromString);
 
             varStringLineFromClipboard = "";
