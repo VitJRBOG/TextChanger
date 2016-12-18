@@ -431,7 +431,59 @@ public class Main {
         return arrayCharText;
     }
 
-    private char[] upperCaseOfFirstLetters(char[] arrayCharText) {
+    private char[] removeSpaceBetweenPunctMark(char[] arrayCharText) {
+
+        try {
+            char[] arrayCharSymbols = {
+                    '.', '!', '?', ',', ':'
+            };
+
+            for (int i = 0; i < arrayCharText.length; i++) {
+                for (char varCharCondition : arrayCharSymbols) {
+
+                    if (arrayCharText[i] == varCharCondition) {
+
+                        if (arrayCharText[i + 1] == ' ') {
+
+                            if (arrayCharText[i + 2] == '.' ||
+                                    arrayCharText[i + 2] == '!' ||
+                                        arrayCharText[i + 2] == '?' ||
+                                            arrayCharText[i + 2] == ',' ||
+                                                arrayCharText[i + 2] == ':') {
+                                ArrayList<Character> objArrayList =
+                                        new ArrayList<>();
+                                for (int j = 0; j < arrayCharText.length; j++) {
+                                    if (j != i + 1) {
+                                        objArrayList.add(arrayCharText[j]);
+                                    }
+                                }
+
+                                char[] arrayCharTextNew =
+                                        new char[objArrayList.size()];
+
+                                for (int j = 0; j < objArrayList.size(); j++) {
+                                    arrayCharTextNew[j] = objArrayList.get(j);
+                                }
+                                return removeSpaceBetweenPunctMark(arrayCharTextNew);
+                            }
+
+                        }
+
+                    }
+
+
+                }
+            }
+
+
+        } catch (Exception e) {
+            System.out.println("COMPUTER: [removeSpaceBetweenPunctMark] Error. " + e.getMessage() + ".");
+        }
+
+        return arrayCharText;
+    }
+
+    private char[] upperCase(char[] arrayCharText) {
 
         try {
 
@@ -506,7 +558,7 @@ public class Main {
             }
         }
         catch (Exception e) {
-            System.out.println("COMPUTER: [upperCaseOfFirstLetters] Error. " + e.getMessage() + ".");
+            System.out.println("COMPUTER: [upperCase] Error. " + e.getMessage() + ".");
         }
 
         return arrayCharText;
@@ -526,7 +578,8 @@ public class Main {
             arrayCharFromString = insertSpaceAfterDoubleParenthesis(arrayCharFromString);
             arrayCharFromString = removeSpaceAfterColonInSmiles(arrayCharFromString);
             arrayCharFromString = removeDoubleSpace(arrayCharFromString);
-            arrayCharFromString = upperCaseOfFirstLetters(arrayCharFromString);
+            arrayCharFromString = removeSpaceBetweenPunctMark(arrayCharFromString);
+            arrayCharFromString = upperCase(arrayCharFromString);
 
             varStringLineFromClipboard = "";
 
