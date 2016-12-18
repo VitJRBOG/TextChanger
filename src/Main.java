@@ -403,8 +403,7 @@ public class Main {
 
             for (int i = 0; i < arrayCharText.length; i++) {
                 if (arrayCharText[i] == ' ' &&
-                        arrayCharText[i + 1] == ' ' ||
-                        arrayCharText[i] == '\n') {
+                        arrayCharText[i + 1] == ' ') {
                     ArrayList<Character> objArrayList =
                             new ArrayList<>();
                     for (int j = 0; j < arrayCharText.length; j++) {
