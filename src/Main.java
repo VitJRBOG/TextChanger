@@ -236,7 +236,9 @@ public class Main {
                 for (char varCharCondition : arrayCharSymbols) {
                     if (arrayCharText[i] == varCharCondition) {
                         if (arrayCharText[i + 1] != varCharCondition) {
-                            if (arrayCharText[i + 1] != ' ') {
+                            if (arrayCharText[i + 1] != ' ' &&
+                                    arrayCharText[i + 1] != '"' &&
+                                        arrayCharText[i + 1] != '\'') {
                                 ArrayList<Character> objArrayList =
                                         new ArrayList<>();
                                 for (int j = 0; j < arrayCharText.length; j++) {
@@ -322,7 +324,7 @@ public class Main {
                     if (arrayCharText[i] == varCharCondition) {
                         if (arrayCharText[i + 1] == varCharCondition &&
                                 arrayCharText[i + 2] != varCharCondition &&
-                                arrayCharText[i + 2] != ' ') {
+                                    arrayCharText[i + 2] != ' ') {
                             ArrayList<Character> objArrayList =
                                     new ArrayList<>();
                             for (int j = 0; j < arrayCharText.length; j++) {
@@ -400,7 +402,6 @@ public class Main {
     private char[] removeDoubleSpace(char[] arrayCharText) {
 
         try {
-
             for (int i = 0; i < arrayCharText.length; i++) {
                 if (arrayCharText[i] == ' ' &&
                         arrayCharText[i + 1] == ' ') {
@@ -474,6 +475,22 @@ public class Main {
                             varString = arrayCharText[i + 3] + "";
                             varString = varString.toUpperCase();
                             arrayCharText[i + 3] = varString.charAt(0);
+                        }
+                        if (arrayCharText[i] == varCharCondition &&
+                                arrayCharText[i + 1] == varCharCondition &&
+                                    arrayCharText[i + 2] == ' ' &&
+                                        arrayCharText[i + 3] == '"') {
+                            varString = arrayCharText[i + 4] + "";
+                            varString = varString.toUpperCase();
+                            arrayCharText[i + 4] = varString.charAt(0);
+                        }
+                        if (arrayCharText[i] == varCharCondition &&
+                                arrayCharText[i + 1] == varCharCondition &&
+                                    arrayCharText[i + 2] == ' ' &&
+                                        arrayCharText[i + 3] == '\'') {
+                            varString = arrayCharText[i + 4] + "";
+                            varString = varString.toUpperCase();
+                            arrayCharText[i + 4] = varString.charAt(0);
                         }
                     }
 
