@@ -179,13 +179,10 @@ public class Main {
     }
 
     private char[] removeSpaceBeforePunctMark(char[] arrayCharText) {
-
         try {
-
             char[] arrayCharSymbols = {
                     '.', '!', '?', ',', ':', ')', ']'
             };
-
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
                     if (arrayCharText[i] == varCharCondition) {
@@ -199,7 +196,6 @@ public class Main {
                                             objArrayList.add(arrayCharText[j]);
                                         }
                                     }
-
                                     char[] arrayCharTextNew =
                                             new char[objArrayList.size()];
 
@@ -210,37 +206,28 @@ public class Main {
                                 }
                             }
                         }
-
                     }
                 }
             }
-
-
         }
         catch (Exception e) {
             System.out.println("COMPUTER: [removeSpaceBeforePunctMark] Error. " + e.getMessage() + ".");
         }
-
         return arrayCharText;
     }
 
     private char[] insertSpaceAfterPunctMark(char[] arrayCharText) {
-
         try {
-
             char[] arrayCharSymbols = {
                     '.', '!', '?', ',', ':', ')', ']'
             };
-
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
                     if (arrayCharText[i] == varCharCondition) {
                         if (arrayCharText[i + 1] != varCharCondition) {
                             if (arrayCharText[i + 1] != ' ' &&
-                                    arrayCharText[i + 1] != '"' &&
-                                        arrayCharText[i + 1] != '\'' &&
-                                            arrayCharText[i + 1] != ')' &&
-                                                arrayCharText[i + 1] != '(') {
+                                    arrayCharText[i + 1] != ')' &&
+                                        arrayCharText[i + 1] != '(') {
                                 ArrayList<Character> objArrayList =
                                         new ArrayList<>();
                                 for (int j = 0; j < arrayCharText.length; j++) {
@@ -249,7 +236,6 @@ public class Main {
                                     }
                                     objArrayList.add(arrayCharText[j]);
                                 }
-
                                 char[] arrayCharTextNew =
                                         new char[objArrayList.size()];
 
@@ -262,22 +248,49 @@ public class Main {
                     }
                 }
             }
-
         } catch (Exception e) {
             System.out.println("COMPUTER: [insertSpaceAfterPunctMark] Error. " + e.getMessage() + ".");
         }
+        return arrayCharText;
+    }
 
+    private char[] removeSpaceBeforeQuotes(char[] arrayCharText) {
+        try {
+            for (int i = 0; i < arrayCharText.length; i++) {
+                if (arrayCharText[i] == '"') {
+                    if (arrayCharText[i - 1] == ' ') {
+                        if (arrayCharText[i - 2] == '.' ||
+                                arrayCharText[i - 2] == '!' ||
+                                arrayCharText[i - 2] == '?') {
+                            ArrayList<Character> objArrayList =
+                                    new ArrayList<>();
+                            for (int j = 0; j < arrayCharText.length; j++) {
+                                if (j != i - 1) {
+                                    objArrayList.add(arrayCharText[j]);
+                                }
+                            }
+                            char[] arrayCharTextNew =
+                                    new char[objArrayList.size()];
+
+                            for (int j = 0; j < objArrayList.size(); j++) {
+                                arrayCharTextNew[j] = objArrayList.get(j);
+                            }
+                            return removeSpaceBeforeQuotes(arrayCharTextNew);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("COMPUTER: [removeSpaceBeforeQuotes] Error. " + e.getMessage() + ".");
+        }
         return arrayCharText;
     }
 
     private char[] insertSpaceBeforeParenthesis(char[] arrayCharText) {
-
         try {
-
             char[] arrayCharSymbols = {
                     '('
             };
-
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
                     if (arrayCharText[i] == varCharCondition) {
@@ -292,10 +305,8 @@ public class Main {
                                     }
                                     objArrayList.add(arrayCharText[j]);
                                 }
-
                                 char[] arrayCharTextNew =
                                         new char[objArrayList.size()];
-
                                 for (int j = 0; j < objArrayList.size(); j++) {
                                     arrayCharTextNew[j] = objArrayList.get(j);
                                 }
@@ -305,24 +316,19 @@ public class Main {
                     }
                 }
             }
-
         } catch (Exception e) {
             System.out.println("COMPUTER: [insertSpaceBeforeParenthesis] Error. " + e.getMessage() + ".");
         }
-
         return arrayCharText;
     }
 
     private char[] insertSpaceAfterDoubleParenthesis(char[] arrayCharText) {
-
         try {
             char[] arrayCharSymbols = {
                     '(', ')'
             };
-
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
-
                     if (arrayCharText[i] == varCharCondition) {
                         if (arrayCharText[i + 1] == varCharCondition &&
                                 arrayCharText[i + 2] != varCharCondition &&
@@ -333,10 +339,8 @@ public class Main {
                                 if (j == i + 2) {
                                     objArrayList.add(' ');
                                 }
-
                                 objArrayList.add(arrayCharText[j]);
                             }
-
                             char[] arrayCharTextNew =
                                     new char[objArrayList.size()];
 
@@ -346,14 +350,11 @@ public class Main {
                             return insertSpaceAfterDoubleParenthesis(arrayCharTextNew);
                         }
                     }
-
                 }
             }
-
         } catch (Exception e) {
             System.out.println("COMPUTER: [insertSpaceAfterDoubleParenthesis] Error. " + e.getMessage() + ".");
         }
-
         return arrayCharText;
     }
 
@@ -366,7 +367,6 @@ public class Main {
             char[] arrayCharSymbolsParenthesis = {
                     '(', ')'
             };
-
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbolsColons) {
                     for (char varCharAdditionalCondition : arrayCharSymbolsParenthesis) {
@@ -380,10 +380,8 @@ public class Main {
                                         objArrayList.add(arrayCharText[j]);
                                     }
                                 }
-
                                 char[] arrayCharTextNew =
                                         new char[objArrayList.size()];
-
                                 for (int j = 0; j < objArrayList.size(); j++) {
                                     arrayCharTextNew[j] = objArrayList.get(j);
                                 }
@@ -393,16 +391,13 @@ public class Main {
                     }
                 }
             }
-
         } catch (Exception e) {
             System.out.println("COMPUTER: [removeSpaceAfterColonInSmiles] Error. " + e.getMessage() + ".");
         }
-
         return arrayCharText;
     }
 
     private char[] removeDoubleSpace(char[] arrayCharText) {
-
         try {
             for (int i = 0; i < arrayCharText.length; i++) {
                 if (arrayCharText[i] == ' ' &&
@@ -414,10 +409,8 @@ public class Main {
                             objArrayList.add(arrayCharText[j]);
                         }
                     }
-
                     char[] arrayCharTextNew =
                             new char[objArrayList.size()];
-
                     for (int j = 0; j < objArrayList.size(); j++) {
                         arrayCharTextNew[j] = objArrayList.get(j);
                     }
@@ -427,24 +420,18 @@ public class Main {
         } catch (Exception e) {
             System.out.println("COMPUTER: [removeDoubleSpace] Error. " + e.getMessage() + ".");
         }
-
         return arrayCharText;
     }
 
     private char[] removeSpaceBetweenPunctMark(char[] arrayCharText) {
-
         try {
             char[] arrayCharSymbols = {
                     '.', '!', '?', ',', ':'
             };
-
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
-
                     if (arrayCharText[i] == varCharCondition) {
-
                         if (arrayCharText[i + 1] == ' ') {
-
                             if (arrayCharText[i + 2] == '.' ||
                                     arrayCharText[i + 2] == '!' ||
                                         arrayCharText[i + 2] == '?' ||
@@ -457,29 +444,20 @@ public class Main {
                                         objArrayList.add(arrayCharText[j]);
                                     }
                                 }
-
                                 char[] arrayCharTextNew =
                                         new char[objArrayList.size()];
-
                                 for (int j = 0; j < objArrayList.size(); j++) {
                                     arrayCharTextNew[j] = objArrayList.get(j);
                                 }
                                 return removeSpaceBetweenPunctMark(arrayCharTextNew);
                             }
-
                         }
-
                     }
-
-
                 }
             }
-
-
         } catch (Exception e) {
             System.out.println("COMPUTER: [removeSpaceBetweenPunctMark] Error. " + e.getMessage() + ".");
         }
-
         return arrayCharText;
     }
 
@@ -554,6 +532,14 @@ public class Main {
                         varString = varString.toUpperCase();
                         arrayCharText[i + 1] = varString.charAt(0);
                     }
+
+                    if (arrayCharText[i] == ':' &&
+                            arrayCharText[i + 1] == ' ' &&
+                                arrayCharText[i + 2] == '"') {
+                        varString = arrayCharText[i + 3] + "";
+                        varString = varString.toUpperCase();
+                        arrayCharText[i + 3] = varString.charAt(0);
+                    }
                 }
             }
         }
@@ -576,6 +562,7 @@ public class Main {
             arrayCharFromString = insertSpaceAfterPunctMark(arrayCharFromString);
             arrayCharFromString = insertSpaceBeforeParenthesis(arrayCharFromString);
             arrayCharFromString = insertSpaceAfterDoubleParenthesis(arrayCharFromString);
+            arrayCharFromString = removeSpaceBeforeQuotes(arrayCharFromString);
             arrayCharFromString = removeSpaceAfterColonInSmiles(arrayCharFromString);
             arrayCharFromString = removeDoubleSpace(arrayCharFromString);
             arrayCharFromString = removeSpaceBetweenPunctMark(arrayCharFromString);
