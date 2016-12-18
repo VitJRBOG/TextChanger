@@ -238,7 +238,9 @@ public class Main {
                         if (arrayCharText[i + 1] != varCharCondition) {
                             if (arrayCharText[i + 1] != ' ' &&
                                     arrayCharText[i + 1] != '"' &&
-                                        arrayCharText[i + 1] != '\'') {
+                                        arrayCharText[i + 1] != '\'' &&
+                                            arrayCharText[i + 1] != ')' &&
+                                                arrayCharText[i + 1] != '(') {
                                 ArrayList<Character> objArrayList =
                                         new ArrayList<>();
                                 for (int j = 0; j < arrayCharText.length; j++) {
