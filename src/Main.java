@@ -466,9 +466,11 @@ public class Main {
                             '(', ')'
                     };
 
+
                     for (char varCharCondition : arrayCharSymbolsForSmiles) {
-                        if (arrayCharText[i + 1] == varCharCondition &&
-                                arrayCharText[i + 2] == ' ') {
+                        if (arrayCharText[i] == varCharCondition &&
+                                arrayCharText[i + 1] == varCharCondition &&
+                                    arrayCharText[i + 2] == ' ') {
                             varString = arrayCharText[i + 3] + "";
                             varString = varString.toUpperCase();
                             arrayCharText[i + 3] = varString.charAt(0);
