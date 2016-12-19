@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.parser.JSONParser;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -323,6 +325,7 @@ public class Main {
     }
 
     private char[] insertSpaceAfterDoubleParenthesis(char[] arrayCharText) {
+
         try {
             char[] arrayCharSymbols = {
                     '(', ')'
@@ -364,12 +367,12 @@ public class Main {
             char[] arrayCharSymbolsColons = {
                     ':', ';', '='
             };
-            char[] arrayCharSymbolsParenthesis = {
-                    '(', ')'
+            char[] arrayCharSymbolsSecondPartSmile = {
+                    '(', ')', '3'
             };
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbolsColons) {
-                    for (char varCharAdditionalCondition : arrayCharSymbolsParenthesis) {
+                    for (char varCharAdditionalCondition : arrayCharSymbolsSecondPartSmile) {
                         if (arrayCharText[i] == varCharCondition) {
                             if (arrayCharText[i + 1] == ' ' &&
                                     arrayCharText[i + 2] == varCharAdditionalCondition) {
@@ -488,9 +491,19 @@ public class Main {
 
                         for (char varCharCondition : arrayCharSymbols) {
                             if (arrayCharText[i - 2] == varCharCondition) {
-                                varString = arrayCharText[i] + "";
-                                varString = varString.toUpperCase();
-                                arrayCharText[i] = varString.charAt(0);
+                                if (arrayCharText[i - 3] == 'т') {
+                                    if (arrayCharText[i] != 'к' &&
+                                            arrayCharText[i] != 'п' &&
+                                                arrayCharText[i] != 'д') {
+                                        varString = arrayCharText[i] + "";
+                                        varString = varString.toUpperCase();
+                                        arrayCharText[i] = varString.charAt(0);
+                                    }
+                                } else {
+                                    varString = arrayCharText[i] + "";
+                                    varString = varString.toUpperCase();
+                                    arrayCharText[i] = varString.charAt(0);
+                                }
                             }
                         }
                     }
@@ -523,6 +536,16 @@ public class Main {
                             varString = arrayCharText[i + 4] + "";
                             varString = varString.toUpperCase();
                             arrayCharText[i + 4] = varString.charAt(0);
+                        }
+                        if (arrayCharText[i] == varCharCondition &&
+                                arrayCharText[i + 1] == ' ') {
+                            if (arrayCharText[i - 1] == '.' ||
+                                    arrayCharText[i - 1] == '!' ||
+                                        arrayCharText[i - 1] == '?') {
+                                varString = arrayCharText[i + 2] + "";
+                                varString = varString.toUpperCase();
+                                arrayCharText[i + 2] = varString.charAt(0);
+                            }
                         }
                     }
 
