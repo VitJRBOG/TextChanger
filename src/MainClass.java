@@ -79,21 +79,25 @@ public class MainClass {
 
     private static class TextTransfer implements ClipboardOwner {
         @Override
-        public void lostOwnership(Clipboard clipboard, Transferable contents) {
-
-        }
-
+        public void lostOwnership(Clipboard clipboard, Transferable contents) {}
         void setData(String data){
             StringSelection stringSelection;
             stringSelection = new StringSelection(data);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, this);
         }
-
         String getData() throws IOException, UnsupportedFlavorException {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             return (String) clipboard.getData(DataFlavor.stringFlavor);
         }
+    }
+
+    private char algorithmUpperCase(char[] arrayCharText, int i, int varIntIndxForUppercase) {
+        String varString = arrayCharText[varIntIndxForUppercase] + "";
+        varString = varString.toUpperCase();
+        char varChar = varString.charAt(0);
+
+        return varChar;
     }
 
     private char[] upperCase(char[] arrayCharText) {
@@ -112,9 +116,7 @@ public class MainClass {
 
             for (int i = 0; i < arrayCharText.length; i++) {
                 if (i == 0) {
-                    varString = arrayCharText[i] + "";
-                    varString = varString.toUpperCase();
-                    arrayCharText[i] = varString.charAt(0);
+                    arrayCharText[i] = algorithmUpperCase(arrayCharText, i, i);
                 } else {
                     if (i > 2) {
                         char[] arrayCharSymbols = {
@@ -127,14 +129,10 @@ public class MainClass {
                                     if (arrayCharText[i] != 'к' &&
                                             arrayCharText[i] != 'п' &&
                                                 arrayCharText[i] != 'д') {
-                                        varString = arrayCharText[i] + "";
-                                        varString = varString.toUpperCase();
-                                        arrayCharText[i] = varString.charAt(0);
+                                        arrayCharText[i] = algorithmUpperCase(arrayCharText, i, i);
                                     }
                                 } else {
-                                    varString = arrayCharText[i] + "";
-                                    varString = varString.toUpperCase();
-                                    arrayCharText[i] = varString.charAt(0);
+                                    arrayCharText[i] = algorithmUpperCase(arrayCharText, i, i);
                                 }
                             }
                         }
@@ -149,51 +147,52 @@ public class MainClass {
                         if (arrayCharText[i] == varCharCondition &&
                                 arrayCharText[i + 1] == varCharCondition &&
                                     arrayCharText[i + 2] == ' ') {
-                            varString = arrayCharText[i + 3] + "";
-                            varString = varString.toUpperCase();
-                            arrayCharText[i + 3] = varString.charAt(0);
+                            arrayCharText[i + 3] = algorithmUpperCase(arrayCharText, i, i + 3);
                         }
                         if (arrayCharText[i] == varCharCondition &&
                                 arrayCharText[i + 1] == varCharCondition &&
                                     arrayCharText[i + 2] == ' ' &&
                                         arrayCharText[i + 3] == '"') {
-                            varString = arrayCharText[i + 4] + "";
-                            varString = varString.toUpperCase();
-                            arrayCharText[i + 4] = varString.charAt(0);
+                            arrayCharText[i + 4] = algorithmUpperCase(arrayCharText, i, i + 4);
                         }
                         if (arrayCharText[i] == varCharCondition &&
                                 arrayCharText[i + 1] == varCharCondition &&
                                     arrayCharText[i + 2] == ' ' &&
                                         arrayCharText[i + 3] == '\'') {
-                            varString = arrayCharText[i + 4] + "";
-                            varString = varString.toUpperCase();
-                            arrayCharText[i + 4] = varString.charAt(0);
+                            arrayCharText[i + 4] = algorithmUpperCase(arrayCharText, i, i + 4);
                         }
                         if (arrayCharText[i] == varCharCondition &&
                                 arrayCharText[i + 1] == ' ') {
                             if (arrayCharText[i - 1] == '.' ||
                                     arrayCharText[i - 1] == '!' ||
                                         arrayCharText[i - 1] == '?') {
-                                varString = arrayCharText[i + 2] + "";
-                                varString = varString.toUpperCase();
-                                arrayCharText[i + 2] = varString.charAt(0);
+                                arrayCharText[i + 2] = algorithmUpperCase(arrayCharText, i, i + 2);
+                            }
+                        }
+                        if (arrayCharText[i] == varCharCondition &&
+                                arrayCharText[i + 1] == ' ') {
+                            if (arrayCharText[i - 1] == ':' ||
+                                    arrayCharText[i - 1] == ';' ||
+                                        arrayCharText[i - 1] == '=') {
+                                arrayCharText[i + 2] = algorithmUpperCase(arrayCharText, i, i + 2);
                             }
                         }
                     }
 
                     if (arrayCharText[i] == '\n' &&
                             arrayCharText[i + 1] != ' ') {
-                        varString = arrayCharText[i + 1] + "";
-                        varString = varString.toUpperCase();
-                        arrayCharText[i + 1] = varString.charAt(0);
+                        arrayCharText[i + 1] = algorithmUpperCase(arrayCharText, i, i + 1);
                     }
 
                     if (arrayCharText[i] == ':' &&
                             arrayCharText[i + 1] == ' ' &&
                                 arrayCharText[i + 2] == '"') {
-                        varString = arrayCharText[i + 3] + "";
-                        varString = varString.toUpperCase();
-                        arrayCharText[i + 3] = varString.charAt(0);
+                        arrayCharText[i + 3] = algorithmUpperCase(arrayCharText, i, i + 3);
+                    }
+
+                    if (arrayCharText[i] == ':' &&
+                            arrayCharText[i + 1] == 'd') {
+                        arrayCharText[i + 1] = algorithmUpperCase(arrayCharText, i, i + 1);
                     }
                 }
             }
@@ -220,10 +219,14 @@ public class MainClass {
 
             arrayCharFromString = objSpaceRemover.removeSpaceBeforePunctMark(arrayCharFromString);
             arrayCharFromString = objSpaceInserter.insertSpaceAfterPunctMark(arrayCharFromString);
+            arrayCharFromString = objSpaceRemover.removeSpaceInSmile(arrayCharFromString);
+            arrayCharFromString = objSpaceInserter.insertSpaceAfterParenthesis(arrayCharFromString);
             arrayCharFromString = objSpaceInserter.insertSpaceBeforeParenthesis(arrayCharFromString);
             arrayCharFromString = objSpaceInserter.insertSpaceAfterDoubleParenthesis(arrayCharFromString);
             arrayCharFromString = objSpaceRemover.removeSpaceBeforeQuotes(arrayCharFromString);
             arrayCharFromString = objSpaceRemover.removeSpaceAfterColonInSmiles(arrayCharFromString);
+            arrayCharFromString = objSpaceRemover.removeSpaceAfterOpenParenthesis(arrayCharFromString);
+            arrayCharFromString = objSpaceInserter.insertSpaceAfterSmiles(arrayCharFromString);
             arrayCharFromString = objSpaceRemover.removeDoubleSpace(arrayCharFromString);
             arrayCharFromString = objSpaceRemover.removeSpaceBetweenPunctMark(arrayCharFromString);
             arrayCharFromString = upperCase(arrayCharFromString);
