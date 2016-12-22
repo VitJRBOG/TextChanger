@@ -196,8 +196,7 @@ public class MainClass {
                     }
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("COMPUTER: [upperCase] Error. " + e.getMessage() + ".");
         }
 
@@ -212,11 +211,14 @@ public class MainClass {
                     new SpaceInserter();
             SpaceRemover objSpaceRemover =
                     new SpaceRemover();
+            Censorship objCensorship =
+                    new Censorship();
 
             varStringLineFromClipboard = varStringLineFromClipboard.toLowerCase();
 
             char[] arrayCharFromString = varStringLineFromClipboard.toCharArray();
 
+            arrayCharFromString = objCensorship.simpleWords(arrayCharFromString);
             arrayCharFromString = objSpaceRemover.removeSpaceBeforePunctMark(arrayCharFromString);
             arrayCharFromString = objSpaceInserter.insertSpaceAfterPunctMark(arrayCharFromString);
             arrayCharFromString = objSpaceRemover.removeSpaceInSmile(arrayCharFromString);
