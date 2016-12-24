@@ -25,6 +25,24 @@ class SpaceRemover {
         return arrayCharTextNew;
     }
 
+    char[] removeSpaceInBeginNewLine(char[] arrayCharText) {
+
+        try {
+            for (int i = 0; i < arrayCharText.length; i++) {
+                if (i > 0) {
+                    if (arrayCharText[i] == ' ' &&
+                            arrayCharText[i - 1] == '\n') {
+                        char[] arrayCharTextNew = algorithmRemoveSpace(arrayCharText, i);
+                        return removeSpaceInBeginNewLine(arrayCharTextNew);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("COMPUTER: [removeSpaceBeforePunctMark] Error. " + e.getMessage() + ".");
+        }
+        return arrayCharText;
+    }
+
     char[] removeSpaceBeforePunctMark(char[] arrayCharText) {
         try {
             char[] arrayCharSymbols = {
@@ -59,9 +77,10 @@ class SpaceRemover {
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
                     if (i > 0 &&
-                            i < arrayCharText.length - 1) {
+                            i < arrayCharText.length - 3) {
                         if (arrayCharText[i] == varCharCondition &&
-                                arrayCharText[i + 1] == ' ') {
+                                arrayCharText[i + 1] == ' ' &&
+                                    arrayCharText[i - 1] != varCharCondition) {
                             char[] arrayCharTextNew = algorithmRemoveSpace(arrayCharText, i + 1);
                             return removeSpaceAfterOpenParenthesis(arrayCharTextNew);
                         }
@@ -109,7 +128,7 @@ class SpaceRemover {
                 for (char varCharCondition : arrayCharSymbolsColons) {
                     for (char varCharAdditionalCondition : arrayCharSymbolsSecondPartSmile) {
                         if (i > 0 &&
-                                i < arrayCharText.length - 2) {
+                                i < arrayCharText.length - 3) {
                             if (arrayCharText[i] == varCharCondition) {
                                 if (arrayCharText[i + 1] == ' ' &&
                                         arrayCharText[i + 2] == varCharAdditionalCondition) {
@@ -130,7 +149,7 @@ class SpaceRemover {
         try {
             for (int i = 0; i < arrayCharText.length; i++) {
                 if (i > 0 &&
-                        i < arrayCharText.length - 1) {
+                        i < arrayCharText.length - 2) {
                     if (arrayCharText[i] == ' ' &&
                             arrayCharText[i + 1] == ' ') {
                         char[] arrayCharTextNew = algorithmRemoveSpace(arrayCharText, i);
@@ -151,7 +170,7 @@ class SpaceRemover {
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
                     if (i > 0 &&
-                            i < arrayCharText.length - 2) {
+                            i < arrayCharText.length - 3) {
                         if (arrayCharText[i] == varCharCondition) {
                             if (arrayCharText[i + 1] == ' ') {
                                 if (arrayCharText[i + 2] == '.' ||
@@ -177,7 +196,7 @@ class SpaceRemover {
         try {
             for (int i = 0; i < arrayCharText.length; i++) {
                 if (i > 0 &&
-                        i < arrayCharText.length - 2) {
+                        i < arrayCharText.length - 3) {
                     if (arrayCharText[i] == ':' &&
                             arrayCharText[i + 2] == 'd' &&
                                 arrayCharText[i + 1] == ' ') {

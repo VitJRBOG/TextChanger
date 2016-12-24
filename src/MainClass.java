@@ -92,12 +92,11 @@ public class MainClass {
         }
     }
 
-    private char algorithmUpperCase(char[] arrayCharText, int i, int varIntIndxForUppercase) {
+    private char algorithmUpperCase(char[] arrayCharText, int varIntIndxForUppercase) {
         String varString = arrayCharText[varIntIndxForUppercase] + "";
         varString = varString.toUpperCase();
-        char varChar = varString.charAt(0);
 
-        return varChar;
+        return varString.charAt(0);
     }
 
     private char[] upperCase(char[] arrayCharText) {
@@ -116,7 +115,7 @@ public class MainClass {
 
             for (int i = 0; i < arrayCharText.length; i++) {
                 if (i == 0) {
-                    arrayCharText[i] = algorithmUpperCase(arrayCharText, i, i);
+                    arrayCharText[i] = algorithmUpperCase(arrayCharText, i);
                 } else {
                     if (i > 2) {
                         char[] arrayCharSymbols = {
@@ -124,15 +123,48 @@ public class MainClass {
                         };
 
                         for (char varCharCondition : arrayCharSymbols) {
-                            if (arrayCharText[i - 2] == varCharCondition) {
-                                if (arrayCharText[i - 3] == 'т') {
-                                    if (arrayCharText[i] != 'к' &&
-                                            arrayCharText[i] != 'п' &&
-                                                arrayCharText[i] != 'д') {
-                                        arrayCharText[i] = algorithmUpperCase(arrayCharText, i, i);
+
+                            if (arrayCharText[i] == varCharCondition) {
+                                if (arrayCharText[i] == '.') {
+                                    if (i > 1 &&
+                                            i < arrayCharText.length - 2) {
+
+                                        if (arrayCharText[i + 1] == ' ') {
+                                            if (arrayCharText[i - 1] != 'т') {
+                                                if (arrayCharText[i - 1] != 'к' &&
+                                                        arrayCharText[i - 1] != 'п' &&
+                                                        arrayCharText[i - 1] != 'д' &&
+                                                        arrayCharText[i - 1] != 'н' &&
+                                                        arrayCharText[i - 1] != 'е') {
+                                                    if (arrayCharText[i + 2] != 'к' &&
+                                                            arrayCharText[i + 2] != 'п' &&
+                                                            arrayCharText[i + 2] != 'д' &&
+                                                            arrayCharText[i + 2] != 'н' &&
+                                                            arrayCharText[i + 2] != 'е') {
+                                                        arrayCharText[i + 2] = algorithmUpperCase(
+                                                                arrayCharText, i + 2);
+                                                    }
+                                                }
+                                            } else {
+                                                if (arrayCharText[i + 2] != 'к' &&
+                                                        arrayCharText[i + 2] != 'п' &&
+                                                        arrayCharText[i + 2] != 'д' &&
+                                                        arrayCharText[i + 2] != 'н' &&
+                                                        arrayCharText[i + 2] != 'е') {
+                                                    arrayCharText[i + 2] = algorithmUpperCase(
+                                                            arrayCharText, i + 2);
+                                                }
+                                            }
+                                        }
                                     }
                                 } else {
-                                    arrayCharText[i] = algorithmUpperCase(arrayCharText, i, i);
+                                    if (i > 1 &&
+                                            i < arrayCharText.length - 2) {
+                                        if (arrayCharText[i + 1] == ' ') {
+                                            arrayCharText[i + 2] = algorithmUpperCase(
+                                                    arrayCharText, i + 2);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -147,26 +179,26 @@ public class MainClass {
                         if (arrayCharText[i] == varCharCondition &&
                                 arrayCharText[i + 1] == varCharCondition &&
                                     arrayCharText[i + 2] == ' ') {
-                            arrayCharText[i + 3] = algorithmUpperCase(arrayCharText, i, i + 3);
+                            arrayCharText[i + 3] = algorithmUpperCase(arrayCharText, i + 3);
                         }
                         if (arrayCharText[i] == varCharCondition &&
                                 arrayCharText[i + 1] == varCharCondition &&
                                     arrayCharText[i + 2] == ' ' &&
                                         arrayCharText[i + 3] == '"') {
-                            arrayCharText[i + 4] = algorithmUpperCase(arrayCharText, i, i + 4);
+                            arrayCharText[i + 4] = algorithmUpperCase(arrayCharText, i + 4);
                         }
                         if (arrayCharText[i] == varCharCondition &&
                                 arrayCharText[i + 1] == varCharCondition &&
                                     arrayCharText[i + 2] == ' ' &&
                                         arrayCharText[i + 3] == '\'') {
-                            arrayCharText[i + 4] = algorithmUpperCase(arrayCharText, i, i + 4);
+                            arrayCharText[i + 4] = algorithmUpperCase(arrayCharText, i + 4);
                         }
                         if (arrayCharText[i] == varCharCondition &&
                                 arrayCharText[i + 1] == ' ') {
                             if (arrayCharText[i - 1] == '.' ||
                                     arrayCharText[i - 1] == '!' ||
                                         arrayCharText[i - 1] == '?') {
-                                arrayCharText[i + 2] = algorithmUpperCase(arrayCharText, i, i + 2);
+                                arrayCharText[i + 2] = algorithmUpperCase(arrayCharText, i + 2);
                             }
                         }
                         if (arrayCharText[i] == varCharCondition &&
@@ -174,25 +206,31 @@ public class MainClass {
                             if (arrayCharText[i - 1] == ':' ||
                                     arrayCharText[i - 1] == ';' ||
                                         arrayCharText[i - 1] == '=') {
-                                arrayCharText[i + 2] = algorithmUpperCase(arrayCharText, i, i + 2);
+                                arrayCharText[i + 2] = algorithmUpperCase(arrayCharText, i + 2);
                             }
                         }
                     }
 
                     if (arrayCharText[i] == '\n' &&
                             arrayCharText[i + 1] != ' ') {
-                        arrayCharText[i + 1] = algorithmUpperCase(arrayCharText, i, i + 1);
+                        arrayCharText[i + 1] = algorithmUpperCase(arrayCharText, i + 1);
                     }
 
                     if (arrayCharText[i] == ':' &&
                             arrayCharText[i + 1] == ' ' &&
                                 arrayCharText[i + 2] == '"') {
-                        arrayCharText[i + 3] = algorithmUpperCase(arrayCharText, i, i + 3);
+                        arrayCharText[i + 3] = algorithmUpperCase(arrayCharText, i + 3);
                     }
 
                     if (arrayCharText[i] == ':' &&
                             arrayCharText[i + 1] == 'd') {
-                        arrayCharText[i + 1] = algorithmUpperCase(arrayCharText, i, i + 1);
+                        arrayCharText[i + 1] = algorithmUpperCase(arrayCharText, i + 1);
+                    }
+
+                    if (arrayCharText[i] == ':' &&
+                            arrayCharText[i + 1] == 'D' &&
+                                arrayCharText[i + 2] == ' ') {
+                        arrayCharText[i + 3] = algorithmUpperCase(arrayCharText, i + 3);
                     }
                 }
             }
@@ -219,6 +257,7 @@ public class MainClass {
             char[] arrayCharFromString = varStringLineFromClipboard.toCharArray();
 
             arrayCharFromString = objCensorship.simpleWords(arrayCharFromString);
+            arrayCharFromString = objSpaceRemover.removeSpaceInBeginNewLine(arrayCharFromString);
             arrayCharFromString = objSpaceRemover.removeSpaceBeforePunctMark(arrayCharFromString);
             arrayCharFromString = objSpaceInserter.insertSpaceAfterPunctMark(arrayCharFromString);
             arrayCharFromString = objSpaceRemover.removeSpaceInSmile(arrayCharFromString);

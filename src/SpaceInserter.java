@@ -31,7 +31,7 @@ class SpaceInserter {
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
                     if (i > 0 &&
-                            i < arrayCharText.length - 1) {
+                            i < arrayCharText.length - 2) {
                         if (arrayCharText[i] == varCharCondition) {
                             if (arrayCharText[i + 1] != varCharCondition) {
                                 if (arrayCharText[i + 1] != ' ' &&
@@ -59,11 +59,15 @@ class SpaceInserter {
             };
             for (int i = 0; i < arrayCharText.length; i++) {
                 if (i > 0 &&
-                        i < arrayCharText.length - 1) {
+                        i < arrayCharText.length - 2) {
                     for (char varCharCondition : arrayCharSymbols) {
                         if (arrayCharText[i] == varCharCondition) {
                             if (arrayCharText[i + 1] != varCharCondition) {
-                                if (arrayCharText[i + 1] != ' ') {
+                                if (arrayCharText[i + 1] != ' ' &&
+                                        arrayCharText[i + 1] != '.' &&
+                                            arrayCharText[i + 1] != '!' &&
+                                                arrayCharText[i + 1] != '?' &&
+                                                    arrayCharText[i + 1] != ',') {
                                     char[] arrayCharTextNew = algorithmInsertSpace(arrayCharText, i + 1);
                                     return insertSpaceAfterParenthesis(arrayCharTextNew);
                                 }
@@ -83,7 +87,7 @@ class SpaceInserter {
             for (int i = 0; i < arrayCharText.length; i++) {
                 if (arrayCharText[i] == '(') {
                     if (i > 0 &&
-                            i < arrayCharText.length - 1) {
+                            i < arrayCharText.length - 2) {
                         if (arrayCharText[i - 1] != ' ') {
                             if (arrayCharText[i - 1] != '(' &&
                                     arrayCharText[i + 1] != '(') {
@@ -103,16 +107,14 @@ class SpaceInserter {
     char[] insertSpaceAfterSmiles(char[] arrayCharText) {
 
         try {
-
             char[] arrayCharSymbols = {
-                    '(', ')'
+                    '(', ')', 'd'
             };
-
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
                     if (arrayCharText[i] == varCharCondition) {
                         if (i > 0 &&
-                                i < arrayCharText.length - 1) {
+                                i < arrayCharText.length - 2) {
                             if (arrayCharText[i + 1] != ' ') {
                                 if (arrayCharText[i - 1] == ':' ||
                                         arrayCharText[i - 1] == ';' ||
@@ -125,11 +127,9 @@ class SpaceInserter {
                     }
                 }
             }
-
         } catch (Exception e) {
             System.out.println("COMPUTER: [insertSpaceAfterSmiles] Error. " + e.getMessage() + ".");
         }
-
         return arrayCharText;
     }
 
@@ -142,11 +142,15 @@ class SpaceInserter {
             for (int i = 0; i < arrayCharText.length; i++) {
                 for (char varCharCondition : arrayCharSymbols) {
                     if (i > 0 &&
-                            i < arrayCharText.length - 2) {
+                            i < arrayCharText.length - 3) {
                         if (arrayCharText[i] == varCharCondition) {
                             if (arrayCharText[i + 1] == varCharCondition &&
                                     arrayCharText[i + 2] != varCharCondition &&
-                                    arrayCharText[i + 2] != ' ') {
+                                        arrayCharText[i + 2] != ' ' &&
+                                            arrayCharText[i + 2] != ',' &&
+                                                arrayCharText[i + 2] != '.' &&
+                                                    arrayCharText[i + 2] != '!' &&
+                                                        arrayCharText[i + 2] != '?' ) {
                                 char[] arrayCharTextNew = algorithmInsertSpace(arrayCharText, i + 2);
                                 return insertSpaceAfterDoubleParenthesis(arrayCharTextNew);
                             }
