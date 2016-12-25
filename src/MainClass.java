@@ -170,6 +170,22 @@ public class MainClass {
                         }
                     }
 
+                    if (i > 2 &&
+                            i < arrayCharText.length - 2) {
+                        if (arrayCharText[i] == 'п' ||
+                                arrayCharText[i] == 'д' ||
+                                    arrayCharText[i] == 'н' ||
+                                        arrayCharText[i] == 'е' ||
+                                            arrayCharText[i] == 'к') {
+                            if (arrayCharText[i + 1] != '.' &&
+                                    arrayCharText[i - 3] != 'т' &&
+                                        arrayCharText[i - 1] == ' ' &&
+                                            arrayCharText[i - 2] == '.') {
+                                arrayCharText[i] = algorithmUpperCase(arrayCharText, i);
+                            }
+                        }
+                    }
+
                     char[] arrayCharSymbolsForSmiles = {
                             '(', ')'
                     };
