@@ -8,7 +8,8 @@ def main_menu():
     print("COMPUTER: Copy text to clipboard and enter digit for next action.")
     print("COMPUTER [Main Menu -> ..]: 1 == Change symbols from Cyr to Lat.")
     print("COMPUTER [Main Menu -> ..]: 2 == Change symbols from Lat to Cyr.")
-    print("COMPUTER [Main Menu -> ..]: 3 == To format text.")
+    print("COMPUTER [Main Menu -> ..]: 3 == To censor text.")
+    print("COMPUTER [Main Menu -> ..]: 4 == To format text.")
     print("COMPUTER [Main Menu -> ..]: 0 == Close program.")
 
     try:
@@ -25,9 +26,12 @@ def main_menu():
                     lat_to_cyr()
                 else:
                     if user_answer == "3":
-                        format_text()
+                        censor()
                     else:
-                        print("COMPUTER: Unknown command. Retry query...")
+                        if user_answer == "4":
+                            format_text()
+                        else:
+                            print("COMPUTER: Unknown command. Retry query...")
 
     except Exception as var_except:
         print("COMPUTER [Main Menu]: Error, " + str(var_except) + ". Return to Main Menu...")
@@ -63,9 +67,8 @@ def change(text, type_operation):
                 number_changes += 1
                 break
 
-    print("COMPUTER [Main Menu -> " + type_operation + " -> Change]: "
-                                                       "Was changed " + str(number_changes) +
-          " symbols. Text was been copied to clipboard.")
+    print("COMPUTER [Main Menu -> " + type_operation + " -> Change]: Was changed " + str(number_changes) +
+          " symbols.")
     text = ''.join(array_text)
     return text
 
@@ -83,6 +86,8 @@ def cyr_to_lat():
         gtk.timeout_add(1, gtk.main_quit)
         gtk.main()
 
+        print("COMPUTER [Main Menu -> Cyr to Lat]: Text was been copied to clipboard.")
+
     except Exception as var_except:
         print("COMPUTER [Main Menu -> Cyr to Lat]: Error, " + str(var_except) + ". Return to Main Menu...")
 
@@ -93,15 +98,66 @@ def lat_to_cyr():
     try:
         cb = gtk.clipboard_get()
 
-        text = gtk.Clipboard.wait_for_text(cb)
+        text = str(gtk.Clipboard.wait_for_text(cb))
 
         another_text = change(text, "Cyr to Lat").encode("utf8")
 
         cb.set_text(another_text)
         gtk.timeout_add(1, gtk.main_quit)
         gtk.main()
+
+        print("COMPUTER [Main Menu -> Lat to Cyr]: Text was been copied to clipboard.")
+
     except Exception as var_except:
         print("COMPUTER [Main Menu -> Lat to Cyr]: Error, " + str(var_except) + ". Return to Main Menu...")
+
+    main_menu()
+
+
+def censor():
+
+    try:
+        cb = gtk.clipboard_get()
+
+        text = str(gtk.Clipboard.wait_for_text(cb))
+
+        dirty_words = ["бля", "сук", "суч", "еба", "тра", "хер", "хре", "хуй", "хуе", "пид", "убл", "муд", "жоп",
+                       "уеб", "ваг", "шлю", "чле"]
+
+        text = text.decode("utf8")
+        array_words = text.split(' ')
+
+        number_changes = 0
+
+        for i, word_original in enumerate(array_words):
+            char_array_word_original = list(word_original)
+            for dirty_word in dirty_words:
+                dirty_word = dirty_word.decode("utf8")
+                if len(word_original) >= 3:
+                    for j, original_char in enumerate(char_array_word_original):
+                        if j < len(word_original)-2:
+                            if original_char == dirty_word[0]:
+                                if word_original[j+1] == dirty_word[1] and word_original[j+2] == dirty_word[2]:
+                                    array_words[i] = word_original[0:j+1] + "**" + word_original[j+3:]
+                                    number_changes += 1
+                                    break
+
+        for i, word_original in enumerate(array_words):
+            if word_original[0:3] == "секс":
+                array_words[i] = "*" + word_original[1:]
+                number_changes += 1
+
+        text = ' '.join(array_words)
+
+        cb.set_text(text)
+        gtk.timeout_add(1, gtk.main_quit)
+        gtk.main()
+
+        print("COMPUTER [Main Menu -> To censor text]: Was censored " + str(number_changes) +
+              " words. Text was been copied to clipboard.")
+
+    except Exception as var_except:
+        print("COMPUTER [Main Menu -> To censor text]: Error, " + str(var_except) + ". Return to Main Menu...")
 
     main_menu()
 
