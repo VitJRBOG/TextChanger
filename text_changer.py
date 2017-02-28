@@ -32,6 +32,7 @@ def main_menu():
                             format_text()
                         else:
                             print("COMPUTER: Unknown command. Retry query...")
+                            main_menu()
 
     except Exception as var_except:
         print("COMPUTER [Main Menu]: Error, " + str(var_except) + ". Return to Main Menu...")
@@ -163,7 +164,115 @@ def censor():
 
 
 def format_text():
-    print("COMPUTER [Main Menu -> Format Text]: There is empty yet. Return to Main Menu...")
+
+    try:
+        cb = gtk.clipboard_get()
+
+        text = str(gtk.Clipboard.wait_for_text(cb))
+
+        array_text = list(text.decode("utf8"))
+
+        array_text = format_text_insert_spaces(array_text)
+        array_text = format_text_remove_spaces(array_text)
+        array_text = format_text_uppercase(array_text)
+
+        text = ''.join(array_text)
+
+        cb.set_text(text)
+        gtk.timeout_add(1, gtk.main_quit)
+        gtk.main()
+
+        print("COMPUTER [Main Menu -> To format text]: Text was been copied to clipboard.")
+    except Exception as var_except:
+        print("COMPUTER [Main Menu -> To format text]: Error, " + str(var_except) + ". Return to Main Menu...")
+
     main_menu()
+
+
+def format_text_insert_spaces(array_text):
+
+    number_changes = 0
+
+    array_symbols = ['.', ',', '?', '!', ':', ';']
+
+    try:
+        for i, char_from_text in enumerate(array_text):
+            if i >= 1:
+                for symb_from_array in array_symbols:
+                    if array_text[i] == symb_from_array and array_text[i+1] != ' ':
+                        array_text.insert(i+1, ' ')
+                        number_changes += 1
+                        break
+
+        print("COMPUTER [Main Menu -> To format text -> Insert spaces]: Was did " + str(number_changes) +
+              " changes.")
+
+    except Exception as var_except:
+        print("COMPUTER [Main Menu -> To format text -> Insert spaces]: Error, " + str(var_except) +
+              ". Return to Main Menu...")
+
+    return array_text
+
+
+def format_text_remove_spaces(array_text):
+
+    number_changes = 0
+
+    array_symbols = ['.', ',', '?', '!', ':', ';']
+
+    try:
+        for i, char_from_text in enumerate(array_text):
+            if i >= 1:
+                for symb_from_array in array_symbols:
+                    if array_text[i] == symb_from_array and array_text[i-1] == ' ':
+                        array_text.pop(i-1)
+                        number_changes += 1
+                        break
+
+    except Exception as var_except:
+        print("COMPUTER [Main Menu -> To format text -> Remove spaces]: Error, " + str(var_except) +
+              ". Return to Main Menu...")
+
+    print("COMPUTER [Main Menu -> To format text -> Remove spaces]: Was did " + str(number_changes) +
+          " changes.")
+
+    return array_text
+
+
+def format_text_uppercase(array_text):
+
+    number_changes = 0
+
+    array_symbols = ['.', '?', '!']
+
+    try:
+
+        text = ''.join(array_text)
+        text = text.lower()
+        array_text = list(text)
+
+        array_text[0] = array_text[0].upper()
+        number_changes += 1
+
+        for i, char_from_text in enumerate(array_text):
+            if i >= 1:
+                if array_text[i-1] == "\n":
+                    array_text[i] = array_text[i].upper()
+                    number_changes += 1
+            if i < len(array_text)-2:
+                for symb_from_array in array_symbols:
+                    if array_text[i] == symb_from_array and array_text[i+1] == ' ':
+                        array_text[i+2] = array_text[i+2].upper()
+                        number_changes += 1
+                        break
+
+    except Exception as var_except:
+        print("COMPUTER [Main Menu -> To format text -> Uppercase]: Error, " + str(var_except) +
+              ". Return to Main Menu...")
+
+    print("COMPUTER [Main Menu -> To format text -> Uppercase]: Was did " + str(number_changes) +
+          " changes.")
+
+    return array_text
 
 main_menu()
