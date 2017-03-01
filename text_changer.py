@@ -101,7 +101,7 @@ def lat_to_cyr():
 
         text = str(gtk.Clipboard.wait_for_text(cb))
 
-        another_text = change(text, "Cyr to Lat").encode("utf8")
+        another_text = change(text, "Lat to Cyr").encode("utf8")
 
         cb.set_text(another_text)
         gtk.timeout_add(1, gtk.main_quit)
@@ -123,7 +123,7 @@ def censor():
         text = str(gtk.Clipboard.wait_for_text(cb))
 
         dirty_words = ["бля", "сук", "суч", "еба", "тра", "хер", "хре", "хуй", "хуе", "пид", "убл", "муд", "жоп",
-                       "уеб", "ваг", "шлю", "чле"]
+                       "уеб", "ваг", "шлю", "чле", "пиз", "бле"]
 
         text = text.decode("utf8")
         array_words = text.split(' ')
@@ -132,6 +132,10 @@ def censor():
 
         for i, word_original in enumerate(array_words):
             char_array_word_original = list(word_original)
+            if word_original[0] == 'с' and word_original[1] == 'е' and word_original[2] == 'к' \
+                    and word_original[3] == 'с':
+                array_words[i] = "*" + word_original[1:]
+                number_changes += 1
             for dirty_word in dirty_words:
                 dirty_word = dirty_word.decode("utf8")
                 if len(word_original) >= 3:
@@ -142,11 +146,6 @@ def censor():
                                     array_words[i] = word_original[0:j+1] + "**" + word_original[j+3:]
                                     number_changes += 1
                                     break
-
-        for i, word_original in enumerate(array_words):
-            if word_original[0:3] == "секс":
-                array_words[i] = "*" + word_original[1:]
-                number_changes += 1
 
         text = ' '.join(array_words)
 
