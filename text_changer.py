@@ -35,8 +35,7 @@ def main_menu():
                             main_menu()
 
     except Exception as var_except:
-        print("COMPUTER [Main Menu]: Error, " +
-              str(var_except) + ". Return to Main Menu...")
+        print("COMPUTER [Main Menu]: Error, " + str(var_except) + ". Return to Main Menu...")
         main_menu()
 
 
@@ -71,8 +70,8 @@ def change(text, type_operation):
                 break
 
     print(
-        "COMPUTER [Main Menu -> " + type_operation +
-        " -> Change]: Was changed " + str(number_changes) + " symbols.")
+        "COMPUTER [Main Menu -> " +
+        type_operation + " -> Change]: Was changed " + str(number_changes) + " symbols.")
     text = ''.join(array_text)
     return text
 
@@ -91,14 +90,12 @@ def cyr_to_lat():
         gtk.main()
 
         print(
-            "COMPUTER [Main Menu -> Cyr to Lat]:" +
-            "Text was been copied to clipboard.")
+            "COMPUTER [Main Menu -> Cyr to Lat]: Text was been copied to clipboard.")
 
     except Exception as var_except:
         print(
             "COMPUTER [Main Menu -> Cyr to Lat]: Error, " +
-            str(var_except) +
-            ". Return to Main Menu...")
+            str(var_except) + ". Return to Main Menu...")
 
     main_menu()
 
@@ -122,8 +119,7 @@ def lat_to_cyr():
     except Exception as var_except:
         print(
             "COMPUTER [Main Menu -> Lat to Cyr]: Error, " +
-            str(var_except) +
-            ". Return to Main Menu...")
+            str(var_except) + ". Return to Main Menu...")
 
     main_menu()
 
@@ -135,8 +131,8 @@ def censor():
 
         text = str(gtk.Clipboard.wait_for_text(cb))
 
-        dirty_words = ["блят", "сук", "суч", "еба", "трах", "хер", "хре", "хуй",
-                       "хуе", "пид", "ублю", "муда", "жоп", "ебл", "блеа", "пздц"
+        dirty_words = ["блят", "сук", "суч", "еба", "трах", "хер", "хре", "хуй", "ганд",
+                       "хуе", "пид", "ублю", "муда", "жоп", "ебл", "блеа", "пздц", "уёб",
                        "уеб", "ваги", "шлюх", "член", "пизд", "говн", "гове", "говё"]
 
         text = text.decode("utf8")
@@ -154,20 +150,20 @@ def censor():
                             for j, original_char in enumerate(char_array_word_original):
                                 if j < len(word_original) - 3:
                                     if len(dirty_word) == 3:
-                                        if original_char == dirty_word[0]:
-                                            if word_original[j + 0] == dirty_word[0] and \
-                                               word_original[j + 1] == dirty_word[1] and \
-                                               word_original[j + 2] == dirty_word[2]:
+                                        if original_char.lower() == dirty_word[0]:
+                                            if word_original[j + 0].lower() == dirty_word[0] and \
+                                               word_original[j + 1].lower() == dirty_word[1] and \
+                                               word_original[j + 2].lower() == dirty_word[2]:
                                                 array_words[i] = word_original[0:j + 1] +\
                                                     "**" + word_original[j + 3:]
                                                 number_changes += 1
                                                 return censor_algorithm(array_words, number_changes)
                                     if len(dirty_word) == 4:
-                                        if original_char == dirty_word[0]:
-                                            if word_original[j + 0] == dirty_word[0] and \
-                                               word_original[j + 1] == dirty_word[1] and \
-                                               word_original[j + 2] == dirty_word[2] and \
-                                               word_original[j + 3] == dirty_word[3]:
+                                        if original_char.lower() == dirty_word[0]:
+                                            if word_original[j + 0].lower() == dirty_word[0] and \
+                                               word_original[j + 1].lower() == dirty_word[1] and \
+                                               word_original[j + 2].lower() == dirty_word[2] and \
+                                               word_original[j + 3].lower() == dirty_word[3]:
                                                 array_words[i] = word_original[0:j + 1] +\
                                                     "**" + word_original[j + 3:]
                                                 number_changes += 1
@@ -175,8 +171,7 @@ def censor():
             except Exception as var_except_inner:
                 print(
                     "COMPUTER [Main Menu -> To censor text]: Error, " +
-                    str(var_except_inner) +
-                    ". Return to Main Menu...")
+                    str(var_except_inner) + ". Return to Main Menu...")
                 main_menu
             print(
                 "COMPUTER [Main Menu -> To censor text]: Was censored " +
@@ -194,8 +189,7 @@ def censor():
     except Exception as var_except:
         print(
             "COMPUTER [Main Menu -> To censor text]: Error, " +
-            str(var_except) +
-            ". Return to Main Menu...")
+            str(var_except) + ". Return to Main Menu...")
 
     main_menu()
 
@@ -207,7 +201,9 @@ def format_text():
 
         text = str(gtk.Clipboard.wait_for_text(cb))
 
-        array_text = list(text.decode("utf8"))
+        text = text.decode("utf8")
+        text = text.lower()
+        array_text = list(text)
 
         array_text = format_text_insert_spaces(array_text)
         array_text = format_text_remove_spaces(array_text)
@@ -220,11 +216,11 @@ def format_text():
         gtk.main()
 
         print(
-            "COMPUTER [Main Menu -> To format text]:" +
+            "COMPUTER [Main Menu -> To format text]: " +
             "Text was been copied to clipboard.")
     except Exception as var_except:
         print(
-            "COMPUTER [Main Menu -> To format text]:" +
+            "COMPUTER [Main Menu -> To format text]: " +
             "Error, " + str(var_except) + ". Return to Main Menu...")
 
     main_menu()
@@ -245,20 +241,17 @@ def format_text_insert_spaces(array_text):
                            and array_text[i + 1] != ' ':
                             array_text.insert(i + 1, ' ')
                             number_changes += 1
-                            return insert_spaces_algorithm(
-                                array_text, number_changes)
+                            return insert_spaces_algorithm(array_text, number_changes)
 
             print(
-                "COMPUTER [Main Menu -> To format text -> Insert spaces]:" +
-                "Was did " +
-                str(number_changes) + " changes.")
+                "COMPUTER [Main Menu -> To format text -> Insert spaces]: " +
+                "Was did " + str(number_changes) + " changes.")
             return array_text
 
         except Exception as var_except:
             print(
-                "COMPUTER [Main Menu -> To format text -> Insert spaces]:" +
-                " Error, " + str(var_except) +
-                ". Return to Main Menu...")
+                "COMPUTER [Main Menu -> To format text -> Insert spaces]: " +
+                "Error, " + str(var_except) + ". Return to Main Menu...")
             main_menu
 
     array_text = insert_spaces_algorithm(array_text, number_changes)
@@ -270,7 +263,7 @@ def format_text_remove_spaces(array_text):
 
     number_changes = 0
 
-    array_symbols = ['.', ',', '?', '!', ':', ';']
+    array_symbols = ['.', ',', '?', '!', ':', ';', ' ']
 
     def remove_spaces_algorithm(array_text, number_changes):
         try:
@@ -279,6 +272,16 @@ def format_text_remove_spaces(array_text):
                     for symb_from_array in array_symbols:
                         if array_text[i] == symb_from_array and array_text[i - 1] == ' ':
                             array_text.pop(i - 1)
+                            number_changes += 1
+                            return remove_spaces_algorithm(array_text, number_changes)
+                        if array_text[i] == ')' and array_text[i - 1] == ')' and \
+                           array_text[i - 2] == ' ':
+                            array_text.pop(i - 2)
+                            number_changes += 1
+                            return remove_spaces_algorithm(array_text, number_changes)
+                        if array_text[i] == '(' and array_text[i - 1] == '(' and \
+                           array_text[i - 2] == ' ':
+                            array_text.pop(i - 2)
                             number_changes += 1
                             return remove_spaces_algorithm(array_text, number_changes)
 
@@ -305,11 +308,6 @@ def format_text_uppercase(array_text):
     array_symbols = ['.', '?', '!']
 
     try:
-
-        text = ''.join(array_text)
-        text = text.lower()
-        array_text = list(text)
-
         array_text[0] = array_text[0].upper()
         number_changes += 1
 
@@ -324,17 +322,23 @@ def format_text_uppercase(array_text):
                         array_text[i + 2] = array_text[i + 2].upper()
                         number_changes += 1
                         break
+                if array_text[i] == ')' and array_text[i - 1] == ')' and \
+                   array_text[i + 1] == ' ':
+                    array_text[i + 2] = array_text[i + 2].upper()
+                    number_changes += 1
+                if array_text[i] == '(' and array_text[i - 1] == '(' and \
+                   array_text[i + 1] == ' ':
+                    array_text[i + 2] = array_text[i + 2].upper()
+                    number_changes += 1
 
     except Exception as var_except:
         print(
-            "COMPUTER [Main Menu -> To format text -> Uppercase]:" +
-            "Error, " + str(var_except) +
-            ". Return to Main Menu...")
+            "COMPUTER [Main Menu -> To format text -> Uppercase]: " +
+            "Error, " + str(var_except) + ". Return to Main Menu...")
 
     print(
         "COMPUTER [Main Menu -> To format text -> Uppercase]: " +
-        " Was did " + str(number_changes) +
-        " changes.")
+        "Was did " + str(number_changes) + " changes.")
 
     return array_text
 
