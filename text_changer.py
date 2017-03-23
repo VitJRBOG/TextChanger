@@ -235,7 +235,9 @@ def format_text_insert_spaces(array_text):
     def insert_spaces_algorithm(array_text, number_changes):
         try:
             for i, char_from_text in enumerate(array_text):
-                if i >= 1:
+                if i >= 1 and \
+                   i < len(array_text) - 1 and \
+                   array_text[i + 1] != "\n":
                     for symb_from_array in array_symbols:
                         if array_text[i] == symb_from_array \
                            and array_text[i + 1] != ' ':
@@ -251,8 +253,8 @@ def format_text_insert_spaces(array_text):
         except Exception as var_except:
             print(
                 "COMPUTER [Main Menu -> To format text -> Insert spaces]: " +
-                "Error, " + str(var_except) + ". Return to Main Menu...")
-            main_menu
+                "Error, " + str(var_except) + ".")
+            return array_text
 
     array_text = insert_spaces_algorithm(array_text, number_changes)
 
@@ -293,8 +295,8 @@ def format_text_remove_spaces(array_text):
         except Exception as var_except:
             print(
                 "COMPUTER [Main Menu -> To format text -> Remove spaces]: Error, " +
-                str(var_except) + ". Return to Main Menu...")
-            main_menu
+                str(var_except) + ".")
+            return array_text
 
     array_text = remove_spaces_algorithm(array_text, number_changes)
 
@@ -334,7 +336,8 @@ def format_text_uppercase(array_text):
     except Exception as var_except:
         print(
             "COMPUTER [Main Menu -> To format text -> Uppercase]: " +
-            "Error, " + str(var_except) + ". Return to Main Menu...")
+            "Error, " + str(var_except) + ".")
+        return array_text
 
     print(
         "COMPUTER [Main Menu -> To format text -> Uppercase]: " +
