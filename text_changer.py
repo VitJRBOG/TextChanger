@@ -133,7 +133,7 @@ def censor():
 
         dirty_words = ["блят", "сук", "суч", "еба", "трах", "хер", "хре", "хуй", "ганд",
                        "хуе", "пид", "ублю", "муда", "жоп", "ебл", "блеа", "пздц", "уёб",
-                       "уеб", "ваги", "шлюх", "член", "пизд", "говн", "гове", "говё"]
+                       "уеб", "ваги", "шлюх", "член", "пизд", "говн", "гове", "говё", "гонд"]
 
         text = text.decode("utf8")
         array_words = text.split(' ')
@@ -274,6 +274,10 @@ def format_text_remove_spaces(array_text):
                     for symb_from_array in array_symbols:
                         if array_text[i] == symb_from_array and array_text[i - 1] == ' ':
                             array_text.pop(i - 1)
+                            number_changes += 1
+                            return remove_spaces_algorithm(array_text, number_changes)
+                        if array_text[i] == ' ' and array_text[i - 1] == "\n":
+                            array_text.pop(i)
                             number_changes += 1
                             return remove_spaces_algorithm(array_text, number_changes)
                         if array_text[i] == ')' and array_text[i - 1] == ')' and \
