@@ -196,6 +196,127 @@ def censor():
 
 def format_text():
 
+    def format_text_insert_spaces(array_text):
+
+        number_changes = 0
+
+        array_symbols = ['.', ',', '?', '!', ':', ';']
+
+        def insert_spaces_algorithm(array_text, number_changes):
+            try:
+                for i, char_from_text in enumerate(array_text):
+                    if i >= 1 and \
+                       i < len(array_text) - 1 and \
+                       array_text[i + 1] != "\n":
+                        for symb_from_array in array_symbols:
+                            if array_text[i] == symb_from_array \
+                               and array_text[i + 1] != ' ':
+                                array_text.insert(i + 1, ' ')
+                                number_changes += 1
+                                return insert_spaces_algorithm(array_text, number_changes)
+
+                print(
+                    "COMPUTER [Main Menu -> To format text -> Insert spaces]: " +
+                    "Was did " + str(number_changes) + " changes.")
+                return array_text
+
+            except Exception as var_except:
+                print(
+                    "COMPUTER [Main Menu -> To format text -> Insert spaces]: " +
+                    "Error, " + str(var_except) + ".")
+                return array_text
+
+        array_text = insert_spaces_algorithm(array_text, number_changes)
+
+        return array_text
+
+    def format_text_remove_spaces(array_text):
+
+        number_changes = 0
+
+        array_symbols = ['.', ',', '?', '!', ':', ';', ' ']
+
+        def remove_spaces_algorithm(array_text, number_changes):
+            try:
+                for i, char_from_text in enumerate(array_text):
+                    if i >= 1:
+                        for symb_from_array in array_symbols:
+                            if array_text[i] == symb_from_array and array_text[i - 1] == ' ':
+                                array_text.pop(i - 1)
+                                number_changes += 1
+                                return remove_spaces_algorithm(array_text, number_changes)
+                            if array_text[i] == ' ' and array_text[i - 1] == "\n":
+                                array_text.pop(i)
+                                number_changes += 1
+                                return remove_spaces_algorithm(array_text, number_changes)
+                            if array_text[i] == ')' and array_text[i - 1] == ')' and \
+                               array_text[i - 2] == ' ':
+                                array_text.pop(i - 2)
+                                number_changes += 1
+                                return remove_spaces_algorithm(array_text, number_changes)
+                            if array_text[i] == '(' and array_text[i - 1] == '(' and \
+                               array_text[i - 2] == ' ':
+                                array_text.pop(i - 2)
+                                number_changes += 1
+                                return remove_spaces_algorithm(array_text, number_changes)
+
+                print(
+                    "COMPUTER [Main Menu -> To format text -> Remove spaces]: Was did " +
+                    str(number_changes) + " changes.")
+                return array_text
+
+            except Exception as var_except:
+                print(
+                    "COMPUTER [Main Menu -> To format text -> Remove spaces]: Error, " +
+                    str(var_except) + ".")
+                return array_text
+
+        array_text = remove_spaces_algorithm(array_text, number_changes)
+
+        return array_text
+
+    def format_text_uppercase(array_text):
+
+        number_changes = 0
+
+        array_symbols = ['.', '?', '!']
+
+        try:
+            array_text[0] = array_text[0].upper()
+            number_changes += 1
+
+            for i, char_from_text in enumerate(array_text):
+                if i >= 1:
+                    if array_text[i - 1] == "\n":
+                        array_text[i] = array_text[i].upper()
+                        number_changes += 1
+                if i < len(array_text) - 2:
+                    for symb_from_array in array_symbols:
+                        if array_text[i] == symb_from_array and array_text[i + 1] == ' ':
+                            array_text[i + 2] = array_text[i + 2].upper()
+                            number_changes += 1
+                            break
+                    if array_text[i] == ')' and array_text[i - 1] == ')' and \
+                       array_text[i + 1] == ' ':
+                        array_text[i + 2] = array_text[i + 2].upper()
+                        number_changes += 1
+                    if array_text[i] == '(' and array_text[i - 1] == '(' and \
+                       array_text[i + 1] == ' ':
+                        array_text[i + 2] = array_text[i + 2].upper()
+                        number_changes += 1
+
+        except Exception as var_except:
+            print(
+                "COMPUTER [Main Menu -> To format text -> Uppercase]: " +
+                "Error, " + str(var_except) + ".")
+            return array_text
+
+        print(
+            "COMPUTER [Main Menu -> To format text -> Uppercase]: " +
+            "Was did " + str(number_changes) + " changes.")
+
+        return array_text
+
     try:
         cb = gtk.clipboard_get()
 
@@ -224,130 +345,6 @@ def format_text():
             "Error, " + str(var_except) + ". Return to Main Menu...")
 
     main_menu()
-
-
-def format_text_insert_spaces(array_text):
-
-    number_changes = 0
-
-    array_symbols = ['.', ',', '?', '!', ':', ';']
-
-    def insert_spaces_algorithm(array_text, number_changes):
-        try:
-            for i, char_from_text in enumerate(array_text):
-                if i >= 1 and \
-                   i < len(array_text) - 1 and \
-                   array_text[i + 1] != "\n":
-                    for symb_from_array in array_symbols:
-                        if array_text[i] == symb_from_array \
-                           and array_text[i + 1] != ' ':
-                            array_text.insert(i + 1, ' ')
-                            number_changes += 1
-                            return insert_spaces_algorithm(array_text, number_changes)
-
-            print(
-                "COMPUTER [Main Menu -> To format text -> Insert spaces]: " +
-                "Was did " + str(number_changes) + " changes.")
-            return array_text
-
-        except Exception as var_except:
-            print(
-                "COMPUTER [Main Menu -> To format text -> Insert spaces]: " +
-                "Error, " + str(var_except) + ".")
-            return array_text
-
-    array_text = insert_spaces_algorithm(array_text, number_changes)
-
-    return array_text
-
-
-def format_text_remove_spaces(array_text):
-
-    number_changes = 0
-
-    array_symbols = ['.', ',', '?', '!', ':', ';', ' ']
-
-    def remove_spaces_algorithm(array_text, number_changes):
-        try:
-            for i, char_from_text in enumerate(array_text):
-                if i >= 1:
-                    for symb_from_array in array_symbols:
-                        if array_text[i] == symb_from_array and array_text[i - 1] == ' ':
-                            array_text.pop(i - 1)
-                            number_changes += 1
-                            return remove_spaces_algorithm(array_text, number_changes)
-                        if array_text[i] == ' ' and array_text[i - 1] == "\n":
-                            array_text.pop(i)
-                            number_changes += 1
-                            return remove_spaces_algorithm(array_text, number_changes)
-                        if array_text[i] == ')' and array_text[i - 1] == ')' and \
-                           array_text[i - 2] == ' ':
-                            array_text.pop(i - 2)
-                            number_changes += 1
-                            return remove_spaces_algorithm(array_text, number_changes)
-                        if array_text[i] == '(' and array_text[i - 1] == '(' and \
-                           array_text[i - 2] == ' ':
-                            array_text.pop(i - 2)
-                            number_changes += 1
-                            return remove_spaces_algorithm(array_text, number_changes)
-
-            print(
-                "COMPUTER [Main Menu -> To format text -> Remove spaces]: Was did " +
-                str(number_changes) + " changes.")
-            return array_text
-
-        except Exception as var_except:
-            print(
-                "COMPUTER [Main Menu -> To format text -> Remove spaces]: Error, " +
-                str(var_except) + ".")
-            return array_text
-
-    array_text = remove_spaces_algorithm(array_text, number_changes)
-
-    return array_text
-
-
-def format_text_uppercase(array_text):
-
-    number_changes = 0
-
-    array_symbols = ['.', '?', '!']
-
-    try:
-        array_text[0] = array_text[0].upper()
-        number_changes += 1
-
-        for i, char_from_text in enumerate(array_text):
-            if i >= 1:
-                if array_text[i - 1] == "\n":
-                    array_text[i] = array_text[i].upper()
-                    number_changes += 1
-            if i < len(array_text) - 2:
-                for symb_from_array in array_symbols:
-                    if array_text[i] == symb_from_array and array_text[i + 1] == ' ':
-                        array_text[i + 2] = array_text[i + 2].upper()
-                        number_changes += 1
-                        break
-                if array_text[i] == ')' and array_text[i - 1] == ')' and \
-                   array_text[i + 1] == ' ':
-                    array_text[i + 2] = array_text[i + 2].upper()
-                    number_changes += 1
-                if array_text[i] == '(' and array_text[i - 1] == '(' and \
-                   array_text[i + 1] == ' ':
-                    array_text[i + 2] = array_text[i + 2].upper()
-                    number_changes += 1
-
-    except Exception as var_except:
-        print(
-            "COMPUTER [Main Menu -> To format text -> Uppercase]: " +
-            "Error, " + str(var_except) + ".")
-        return array_text
-
-    print(
-        "COMPUTER [Main Menu -> To format text -> Uppercase]: " +
-        "Was did " + str(number_changes) + " changes.")
-
-    return array_text
 
 
 main_menu()
