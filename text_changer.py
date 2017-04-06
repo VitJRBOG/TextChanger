@@ -210,6 +210,16 @@ def format_text():
                                 array_text.insert(i + 1, ' ')
                                 number_changes += 1
                                 return insert_spaces_algorithm(array_text, number_changes)
+                            if array_text[i] == ')' and array_text[i + 1] == ')' and \
+                               array_text[i + 2] != ')' and array_text[i + 2] != ' ':
+                                array_text.insert(i + 2, ' ')
+                                number_changes += 1
+                                return insert_spaces_algorithm(array_text, number_changes)
+                            if array_text[i] == '(' and array_text[i + 1] == '(' and \
+                               array_text[i + 2] != '(' and array_text[i + 2] != ' ':
+                                array_text.insert(i + 2, ' ')
+                                number_changes += 1
+                                return insert_spaces_algorithm(array_text, number_changes)
 
                 print(
                     "COMPUTER [Main Menu -> To format text -> Insert spaces]: " +
