@@ -142,37 +142,29 @@ def censor():
 
         def censor_algorithm(array_words, number_changes):
             try:
+
                 for i, word_original in enumerate(array_words):
-                    char_array_word_original = list(word_original)
-                    for dirty_word in dirty_words:
-                        dirty_word = dirty_word.decode("utf8")
-                        if len(word_original) >= 3:
-                            for j, original_char in enumerate(char_array_word_original):
-                                if j < len(word_original) - 3:
-                                    if len(dirty_word) == 3:
-                                        if original_char.lower() == dirty_word[0]:
-                                            if word_original[j + 0].lower() == dirty_word[0] and \
-                                               word_original[j + 1].lower() == dirty_word[1] and \
-                                               word_original[j + 2].lower() == dirty_word[2]:
-                                                array_words[i] = word_original[0:j + 1] +\
-                                                    "**" + word_original[j + 3:]
-                                                number_changes += 1
-                                                return censor_algorithm(array_words, number_changes)
-                                    if len(dirty_word) == 4:
-                                        if original_char.lower() == dirty_word[0]:
-                                            if word_original[j + 0].lower() == dirty_word[0] and \
-                                               word_original[j + 1].lower() == dirty_word[1] and \
-                                               word_original[j + 2].lower() == dirty_word[2] and \
-                                               word_original[j + 3].lower() == dirty_word[3]:
-                                                array_words[i] = word_original[0:j + 1] +\
-                                                    "**" + word_original[j + 3:]
-                                                number_changes += 1
-                                                return censor_algorithm(array_words, number_changes)
+                    if len(word_original) >= 3:
+                        for dirty_word in array_dirty_words:
+                            dirty_word = dirty_word.decode("utf8")
+                            j = word_original.lower().find(dirty_word)
+                            print(word_original + " " + dirty_word)
+                            if j != -1:
+                                if len(word_original[j:]) > 3:
+                                    array_words[i] = word_original[0:j + 1] +\
+                                        "**" + word_original[j + 3:]
+                                    number_changes += 1
+                                else:
+                                    array_words[i] = word_original[0:j + 1] + "**"
+                                    number_changes += 1
+                                break
+
             except Exception as var_except_inner:
                 print(
                     "COMPUTER [Main Menu -> To censor text]: Error, " +
                     str(var_except_inner) + ". Return to Main Menu...")
                 main_menu
+
             print(
                 "COMPUTER [Main Menu -> To censor text]: Was censored " +
                 str(number_changes) + " words.")
