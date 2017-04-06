@@ -145,10 +145,9 @@ def censor():
 
                 for i, word_original in enumerate(array_words):
                     if len(word_original) >= 3:
-                        for dirty_word in array_dirty_words:
-                            dirty_word = dirty_word.decode("utf8")
-                            j = word_original.lower().find(dirty_word)
-                            print(word_original + " " + dirty_word)
+                        for search_word in array_search_words:
+                            search_word = search_word.decode("utf8")
+                            j = word_original.lower().find(search_word)
                             if j != -1:
                                 if len(word_original[j:]) > 3:
                                     array_words[i] = word_original[0:j + 1] +\
