@@ -211,12 +211,14 @@ def format_text():
                                 array_text.insert(i + 1, ' ')
                                 number_changes += 1
                                 return insert_spaces_algorithm(array_text, number_changes)
-                            if array_text[i] == ')' and array_text[i + 1] == ')' and \
+                            if i < len(array_text) - 2 and \
+                               array_text[i] == ')' and array_text[i + 1] == ')' and \
                                array_text[i + 2] != ')' and array_text[i + 2] != ' ':
                                 array_text.insert(i + 2, ' ')
                                 number_changes += 1
                                 return insert_spaces_algorithm(array_text, number_changes)
-                            if array_text[i] == '(' and array_text[i + 1] == '(' and \
+                            if i < len(array_text) - 2 and \
+                               array_text[i] == '(' and array_text[i + 1] == '(' and \
                                array_text[i + 2] != '(' and array_text[i + 2] != ' ':
                                 array_text.insert(i + 2, ' ')
                                 number_changes += 1
@@ -256,12 +258,14 @@ def format_text():
                                 array_text.pop(i)
                                 number_changes += 1
                                 return remove_spaces_algorithm(array_text, number_changes)
-                            if array_text[i] == ')' and array_text[i - 1] == ')' and \
+                            if i >= 2 and \
+                               array_text[i] == ')' and array_text[i - 1] == ')' and \
                                array_text[i - 2] == ' ':
                                 array_text.pop(i - 2)
                                 number_changes += 1
                                 return remove_spaces_algorithm(array_text, number_changes)
-                            if array_text[i] == '(' and array_text[i - 1] == '(' and \
+                            if i >= 2 and \
+                               array_text[i] == '(' and array_text[i - 1] == '(' and \
                                array_text[i - 2] == ' ':
                                 array_text.pop(i - 2)
                                 number_changes += 1
