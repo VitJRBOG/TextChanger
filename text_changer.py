@@ -1,19 +1,54 @@
 # coding: utf8
 
 import gtk
+import json
+import os
+
+
+def starter():
+    try:
+        if os.path.exists("json") is False:
+            os.mkdir("json")
+            print("COMPUTER: Was created directory \"json\".")
+        if os.path.exists("json/words.json") is False:
+            print("COMPUTER: WARNING! File \"words.json\" is empty.")
+            file_json = open("json/words.json", "w")
+            file_json.write("{}")
+            file_json.close()
+            print("COMPUTER: File \"words.json\" was succesfully created.")
+
+    except Exception as var_except:
+        print(
+            "COMPUTER: Error, " + str(var_except) + ". Exit from program...")
+        exit()
+    main_menu()
+
+
+def read_json(sender, path, file_name):
+    try:
+        loads_json = json.loads(open(str(path) + str(file_name) +
+                                     ".json", 'r').read())  # dict
+
+        return loads_json
+    except Exception as var_except:
+        print(
+            "COMPUTER [.. -> " + str(sender) +
+            " -> Read JSON]: Error, " + str(var_except) +
+            ". Return to Main menu...")
+    main_menu()
 
 
 def main_menu():
     print("COMPUTER: You are in Main Menu.")
     print("COMPUTER: Copy text to clipboard and enter digit for next action.")
-    print("COMPUTER [Main Menu -> ..]: 1 == Change symbols from Cyr to Lat.")
-    print("COMPUTER [Main Menu -> ..]: 2 == Change symbols from Lat to Cyr.")
-    print("COMPUTER [Main Menu -> ..]: 3 == To censor text.")
-    print("COMPUTER [Main Menu -> ..]: 4 == To format text.")
-    print("COMPUTER [Main Menu -> ..]: 0 == Close program.")
+    print("COMPUTER [Main Menu]: 1 == Change symbols from Cyr to Lat.")
+    print("COMPUTER [Main Menu]: 2 == Change symbols from Lat to Cyr.")
+    print("COMPUTER [Main Menu]: 3 == To censor text.")
+    print("COMPUTER [Main Menu]: 4 == To format text.")
+    print("COMPUTER [Main Menu]: 0 == Close program.")
 
     try:
-        user_answer = raw_input("USER [Main menu -> ]: ")
+        user_answer = raw_input("USER [Main menu]: (1-4/0) ")
 
         if user_answer == "0":
             print("COMPUTER [Main Menu]: Exit from program...")
@@ -35,7 +70,8 @@ def main_menu():
                             main_menu()
 
     except Exception as var_except:
-        print("COMPUTER [Main Menu]: Error, " + str(var_except) + ". Return to Main Menu...")
+        print("COMPUTER [Main Menu]: Error, " + str(var_except) +
+              ". Return to Main Menu...")
         main_menu()
 
 
@@ -60,7 +96,8 @@ def change(text, type_operation):
         else:
             print(
                 "COMPUTER: [Main Menu -> " + type_operation +
-                " -> Change]: Unknown operation. " + "Return to Main Menu...")
+                " -> Change]: Unknown operation. " +
+                "Return to Main Menu...")
             main_menu()
     for i, char_original in enumerate(array_text):
         for j, char_from in enumerate(symb_change_from):
@@ -71,7 +108,8 @@ def change(text, type_operation):
 
     print(
         "COMPUTER [Main Menu -> " +
-        type_operation + " -> Change]: Was changed " + str(number_changes) + " symbols.")
+        type_operation + " -> Change]: Was changed " +
+        str(number_changes) + " symbols.")
     text = ''.join(array_text)
     return text
 
@@ -90,7 +128,8 @@ def cyr_to_lat():
         gtk.main()
 
         print(
-            "COMPUTER [Main Menu -> Cyr to Lat]: Text was been copied to clipboard.")
+            "COMPUTER [Main Menu -> Cyr to Lat]: " +
+            "Text was been copied to clipboard.")
 
     except Exception as var_except:
         print(
@@ -131,15 +170,7 @@ def censor():
 
         text = str(gtk.Clipboard.wait_for_text(cb))
 
-        array_search_words = ["бля", "сук", "суч", "еба", "хер", "хре", "хуй", "хуя", "хуе", "пид",
-                              "жоп", "ебл", "уёб", "уеб", "оеб", "аёб", "аеб", "оёб", "ебу", "ебёт",
-                              "ебет",
-                              "трах", "ганд", "хрин", "ублю", "муда", "блеа", "пздц",
-                              "ваги", "шлюх", "член", "мраз",
-                              "пизд", "говн", "гове", "говё", "гонд", "порн", "дроч",
-                              "перм", "архангел", "ростов", "брян", "иркут", "рыбин",
-                              "хабаров", "самар", "уфим", "калмы", "казан", "краснодар",
-                              "краснояр"]
+        array_search_words = read_json("Censor", "json/", "words")
 
         text = text.decode("utf8")
         array_words = text.split(' ')
@@ -160,7 +191,8 @@ def censor():
                                         "**" + word_original[j + 3:]
                                     number_changes += 1
                                 else:
-                                    array_words[i] = word_original[0:j + 1] + "**"
+                                    array_words[i] = word_original[0:j + 1] +\
+                                        "**"
                                     number_changes += 1
                                 break
 
@@ -201,7 +233,8 @@ def format_text():
 
         def insert_spaces_algorithm(array_text, number_changes):
             try:
-                for i, char_from_text in enumerate(array_text):
+                i = 0
+                while True:
                     if i >= 1 and \
                        i < len(array_text) - 1 and \
                        array_text[i + 1] != "\n":
@@ -210,29 +243,35 @@ def format_text():
                                and array_text[i + 1] != ' ':
                                 array_text.insert(i + 1, ' ')
                                 number_changes += 1
-                                return insert_spaces_algorithm(array_text, number_changes)
                             if i < len(array_text) - 2 and \
-                               array_text[i] == ')' and array_text[i + 1] == ')' and \
-                               array_text[i + 2] != ')' and array_text[i + 2] != ' ':
+                               array_text[i] == ')' and \
+                               array_text[i + 1] == ')' and \
+                               array_text[i + 2] != ')' and \
+                               array_text[i + 2] != ' ':
                                 array_text.insert(i + 2, ' ')
                                 number_changes += 1
-                                return insert_spaces_algorithm(array_text, number_changes)
                             if i < len(array_text) - 2 and \
-                               array_text[i] == '(' and array_text[i + 1] == '(' and \
-                               array_text[i + 2] != '(' and array_text[i + 2] != ' ':
+                               array_text[i] == '(' and \
+                               array_text[i + 1] == '(' and \
+                               array_text[i + 2] != '(' and \
+                               array_text[i + 2] != ' ':
                                 array_text.insert(i + 2, ' ')
                                 number_changes += 1
-                                return insert_spaces_algorithm(array_text, number_changes)
+                    if i >= len(array_text) - 1:
+                        break
+                    i += 1
 
                 print(
-                    "COMPUTER [Main Menu -> To format text -> Insert spaces]: " +
-                    "Was did " + str(number_changes) + " changes.")
+                    "COMPUTER [Main Menu -> To format text -> " +
+                    "Insert spaces]: Was did " +
+                    str(number_changes) +
+                    " changes.")
                 return array_text
 
             except Exception as var_except:
                 print(
-                    "COMPUTER [Main Menu -> To format text -> Insert spaces]: " +
-                    "Error, " + str(var_except) + ".")
+                    "COMPUTER [Main Menu -> To format text -> " +
+                    "Insert spaces]: Error, " + str(var_except) + ".")
                 return array_text
 
         array_text = insert_spaces_algorithm(array_text, number_changes)
@@ -247,38 +286,44 @@ def format_text():
 
         def remove_spaces_algorithm(array_text, number_changes):
             try:
-                for i, char_from_text in enumerate(array_text):
+                i = 0
+                while True:
                     if i >= 1:
                         for symb_from_array in array_symbols:
-                            if array_text[i] == symb_from_array and array_text[i - 1] == ' ':
+                            if array_text[i] == symb_from_array and \
+                               array_text[i - 1] == ' ':
                                 array_text.pop(i - 1)
                                 number_changes += 1
-                                return remove_spaces_algorithm(array_text, number_changes)
-                            if array_text[i] == ' ' and array_text[i - 1] == "\n":
+                            if array_text[i] == ' ' and \
+                               array_text[i - 1] == "\n":
                                 array_text.pop(i)
                                 number_changes += 1
-                                return remove_spaces_algorithm(array_text, number_changes)
                             if i >= 2 and \
-                               array_text[i] == ')' and array_text[i - 1] == ')' and \
+                               array_text[i] == ')' and \
+                               array_text[i - 1] == ')' and \
                                array_text[i - 2] == ' ':
                                 array_text.pop(i - 2)
                                 number_changes += 1
-                                return remove_spaces_algorithm(array_text, number_changes)
                             if i >= 2 and \
-                               array_text[i] == '(' and array_text[i - 1] == '(' and \
+                               array_text[i] == '(' and \
+                               array_text[i - 1] == '(' and \
                                array_text[i - 2] == ' ':
                                 array_text.pop(i - 2)
                                 number_changes += 1
-                                return remove_spaces_algorithm(array_text, number_changes)
+                    if i >= len(array_text) - 1:
+                        break
+                    i += 1
 
                 print(
-                    "COMPUTER [Main Menu -> To format text -> Remove spaces]: Was did " +
+                    "COMPUTER [Main Menu -> To format text -> " +
+                    "Remove spaces]: Was did " +
                     str(number_changes) + " changes.")
                 return array_text
 
             except Exception as var_except:
                 print(
-                    "COMPUTER [Main Menu -> To format text -> Remove spaces]: Error, " +
+                    "COMPUTER [Main Menu -> To format text -> " +
+                    "Remove spaces]: Error, " +
                     str(var_except) + ".")
                 return array_text
 
@@ -303,15 +348,18 @@ def format_text():
                         number_changes += 1
                 if i < len(array_text) - 2:
                     for symb_from_array in array_symbols:
-                        if array_text[i] == symb_from_array and array_text[i + 1] == ' ':
+                        if array_text[i] == symb_from_array and \
+                           array_text[i + 1] == ' ':
                             array_text[i + 2] = array_text[i + 2].upper()
                             number_changes += 1
                             break
-                    if array_text[i] == ')' and array_text[i - 1] == ')' and \
+                    if array_text[i] == ')' and \
+                       array_text[i - 1] == ')' and \
                        array_text[i + 1] == ' ':
                         array_text[i + 2] = array_text[i + 2].upper()
                         number_changes += 1
-                    if array_text[i] == '(' and array_text[i - 1] == '(' and \
+                    if array_text[i] == '(' and \
+                       array_text[i - 1] == '(' and \
                        array_text[i + 1] == ' ':
                         array_text[i + 2] = array_text[i + 2].upper()
                         number_changes += 1
@@ -358,4 +406,4 @@ def format_text():
     main_menu()
 
 
-main_menu()
+starter()
