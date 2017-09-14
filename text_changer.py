@@ -9,13 +9,13 @@ def starter():
     try:
         if os.path.exists("json") is False:
             os.mkdir("json")
-            print("COMPUTER: Was created directory \"json\".")
+            print("\nCOMPUTER: Was created directory \"json\".")
         if os.path.exists("json/words.json") is False:
-            print("COMPUTER: WARNING! File \"words.json\" is empty.")
+            print("\nCOMPUTER: WARNING! File \"words.json\" is empty.")
             file_json = open("json/words.json", "w")
             file_json.write("{}")
             file_json.close()
-            print("COMPUTER: File \"words.json\" was succesfully created.")
+            print("\nCOMPUTER: File \"words.json\" was succesfully created.")
 
     except Exception as var_except:
         print(
@@ -39,7 +39,7 @@ def read_json(sender, path, file_name):
 
 
 def main_menu():
-    print("COMPUTER: You are in Main Menu.")
+    print("\nCOMPUTER: You are in Main Menu.")
     print("COMPUTER: Copy text to clipboard and enter digit for next action.")
     print("COMPUTER [Main Menu]: 1 == Change symbols from Cyr to Lat.")
     print("COMPUTER [Main Menu]: 2 == Change symbols from Lat to Cyr.")
