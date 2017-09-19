@@ -7,12 +7,22 @@ import os
 
 def starter():
     try:
-        if os.path.exists("json") is False:
-            os.mkdir("json")
+
+        if os.path.exists("path.txt") is False:
+            file_text = open("path.txt", "w")
+            file_text.write("")
+            file_text.close()
+            print("COMPUTER: Was created file \"path.txt\".")
+
+        path = read_path_txt()
+
+        if os.path.exists(path + "json") is False:
+            os.mkdir(path + "json")
             print("\nCOMPUTER: Was created directory \"json\".")
-        if os.path.exists("json/words.json") is False:
+
+        if os.path.exists(path + "json/words.json") is False:
             print("\nCOMPUTER: WARNING! File \"words.json\" is empty.")
-            file_json = open("json/words.json", "w")
+            file_json = open(path + "json/words.json", "w")
             file_json.write("{}")
             file_json.close()
             print("\nCOMPUTER: File \"words.json\" was succesfully created.")
@@ -21,6 +31,23 @@ def starter():
         print(
             "COMPUTER: Error, " + str(var_except) + ". Exit from program...")
         exit()
+
+    main_menu()
+
+
+def read_path_txt():
+    try:
+        path = str(open("path.txt", "r").read())
+
+        if len(path) > 0 and path[len(path) - 1] != "/":
+            path += "/"
+
+        return path
+
+    except Exception as var_except:
+        print(
+            "COMPUTER [.. -> Read \"path.txt\"]: Error, " + str(var_except) +
+            ". Return to Main menu...")
     main_menu()
 
 
@@ -165,12 +192,14 @@ def lat_to_cyr():
 
 def censor():
 
+    PATH = read_path_txt()
+
     try:
         cb = gtk.clipboard_get()
 
         text = str(gtk.Clipboard.wait_for_text(cb))
 
-        array_search_words = read_json("Censor", "json/", "words")
+        array_search_words = read_json("Censor", PATH + "json/", "words")
 
         text = text.decode("utf8")
         array_words = text.split(' ')
