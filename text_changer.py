@@ -3,6 +3,7 @@
 import gtk
 import json
 import os
+import re
 
 
 def starter():
@@ -76,6 +77,8 @@ def main_menu():
 
     try:
         user_answer = raw_input("USER [Main menu]: (1-4/0) ")
+
+        user_answer = re.sub("[^0123456789\.]", "", user_answer)
 
         if user_answer == "0":
             print("COMPUTER [Main Menu]: Exit from program...")
