@@ -335,7 +335,7 @@ def format_text(sender):
                                array_text[i] == '(' and \
                                array_text[i - 1] != '(' and \
                                array_text[i - 1] != ' ':
-                                array_text.insert(i - 1, ' ')
+                                array_text.insert(i, ' ')
                                 number_changes += 1
                             if i < len(array_text) - 2 and \
                                array_text[i] == '(' and \
@@ -403,6 +403,7 @@ def format_text(sender):
                             if i >= 1 and \
                                i < len(array_text) - 3 and \
                                array_text[i] == '(' and \
+                               array_text[i - 1] != '(' and \
                                array_text[i + 1] == ' ':
                                 array_text.pop(i + 1)
                                 number_changes += 1
