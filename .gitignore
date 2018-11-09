@@ -1,4 +1,5 @@
-/.idea
-*.iml
-/json
+/.vscode
+/res
+/junk
+*.pyc
 path.txt
