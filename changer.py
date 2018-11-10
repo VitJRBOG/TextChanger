@@ -3,6 +3,7 @@ u"""Модуль замены символов."""
 
 
 import pyperclip
+import re
 import data_manager
 
 
@@ -36,7 +37,7 @@ def select_data(condition):
         changewords = words_json_loads["changewords"]
         for i, orig_word in enumerate(words_from_text):
             for changeword in changewords:
-                if len(changeword) == len(orig_word):
+                if len(changeword) == len(re.sub(r"[,.!?:;()'\"]", "", orig_word)):
                     pos = orig_word.lower().find(changeword)
                     if pos > -1:
                         new_word, number_changes = change_algorithm(
