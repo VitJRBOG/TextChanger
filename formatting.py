@@ -21,37 +21,31 @@ def remove_spaces(text):
     u"""Удаление лишних пробелов"""
     def remove_space_before_symbol(text):
         u"""Удаление лишних пробелов перед символом."""
-        symbols = [
-            ".", ",", "!", "?", ")", ":", ";"
-        ]
         text_symbs = list(text)
-        for symbol in symbols:
-            i = 0
-            while i < len(text_symbs):
-                if i > 0:
-                    if text_symbs[i] == symbol and text_symbs[i - 1] == " ":
+        i = 0
+        while i < len(text_symbs):
+            if i > 0:
+                if len(re.findall(r"[.,!?):;]", text_symbs[i])) > 0:
+                    if text_symbs[i - 1] == " ":
                         text_symbs.pop(i - 1)
-                if i >= len(text_symbs):
-                    break
-                i += 1
+            if i >= len(text_symbs):
+                break
+            i += 1
         new_text = ''.join(text_symbs)
         return new_text
 
     def remove_space_after_symbol(text):
         u"""Удаление лишних пробелов после символа."""
-        symbols = [
-            "(", "\"", "'"
-        ]
         text_symbs = list(text)
-        for symbol in symbols:
-            i = 0
-            while i < len(text_symbs):
-                if i < len(text_symbs) - 2:
-                    if text_symbs[i] == symbol and text_symbs[i + 1] == " ":
+        i = 0
+        while i < len(text_symbs):
+            if i < len(text_symbs) - 2:
+                if len(re.findall(r"[('\"]", text_symbs[i])) > 0:
+                    if text_symbs[i + 1] == " ":
                         text_symbs.pop(i + 1)
-                if i >= len(text_symbs):
-                    break
-                i += 1
+            if i >= len(text_symbs):
+                break
+            i += 1
         new_text = ''.join(text_symbs)
         return new_text
 
@@ -79,25 +73,24 @@ def insert_spaces(text):
 
     def insert_space_after_space(text):
         u"""Вставка недостающего пробела после символа."""
-        symbols = [
-            ".", ",", "!", "?", ":", ";"
-        ]
         text_symbs = list(text)
-        for symbol in symbols:
-            i = 0
-            while i < len(text_symbs):
-                if i < len(text_symbs) - 2:
-                    if text_symbs[i] == symbol and text_symbs[i + 1] != " ":
-                        text_symbs.insert(i + 1, " ")
-                if i >= len(text_symbs):
-                    break
-                i += 1
         i = 0
         while i < len(text_symbs):
             if i < len(text_symbs) - 2:
-                if text_symbs[i] == ")" and text_symbs[i + 1] != ")" and \
-                   text_symbs[i + 1] != " ":
-                    text_symbs.insert(i + 1, " ")
+                if len(re.findall(r"[.,!?:;]", text_symbs[i])) > 0 and \
+                   len(re.findall(r"[.,!?]", text_symbs[i + 1])) == 0:
+                    if text_symbs[i + 1] != " ":
+                        text_symbs.insert(i + 1, " ")
+            if i >= len(text_symbs):
+                break
+            i += 1
+        i = 0
+        while i < len(text_symbs):
+            if i < len(text_symbs) - 2:
+                if text_symbs[i] == ")" and \
+                   len(re.findall(r"[.,!?)]", text_symbs[i + 1])) == 0:
+                    if text_symbs[i + 1] != " ":
+                        text_symbs.insert(i + 1, " ")
             if i >= len(text_symbs):
                 break
             i += 1
