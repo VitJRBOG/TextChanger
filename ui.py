@@ -104,4 +104,5 @@ def run_new_changeword():
         output += "New changeword has been successfully added."
     else:
         output += "Changeword not added. Cause: " + cause + "."
+    print(output)
     main_menu()
