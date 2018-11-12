@@ -115,6 +115,11 @@ def uppercase_characters(text):
             if len(re.findall(r"[\n]", text_symbs[i])) > 0:
                 if text_symbs[i + 1] != " ":
                     text_symbs[i + 1] = text_symbs[i + 1].upper()
+        if i < len(text_symbs) - 4:
+            if len(re.findall(r"[:]", text_symbs[i])) > 0:
+                if text_symbs[i + 1] == " " and text_symbs[i + 2] == "\"":
+                    text_symbs[i + 3] = text_symbs[i + 3].upper()
+
         i += 1
     new_text = ''.join(text_symbs)
     return new_text
