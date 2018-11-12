@@ -104,17 +104,18 @@ def insert_spaces(text):
 
 def uppercase_characters(text):
     u"""Установка верхнего регистра у некоторых букв."""
-    symbols = [
-        ".", "!", "?"
-    ]
     text_symbs = list(text)
     text_symbs[0] = text_symbs[0].upper()
-    for symbol in symbols:
-        for i, character in enumerate(text_symbs):
-            if i < len(text_symbs) - 3:
-                if character == symbol:
-                    if text_symbs[i + 1] == " " and text_symbs[i + 2] != " ":
-                        text_symbs[i + 2] = text_symbs[i + 2].upper()
+    i = 0
+    while i < len(text_symbs):
+        if i < len(text_symbs) - 3:
+            if len(re.findall(r"[.!?]", text_symbs[i])) > 0:
+                if text_symbs[i + 1] == " " and text_symbs[i + 2] != " ":
+                    text_symbs[i + 2] = text_symbs[i + 2].upper()
+            if len(re.findall(r"[\n]", text_symbs[i])) > 0:
+                if text_symbs[i + 1] != " ":
+                    text_symbs[i + 1] = text_symbs[i + 1].upper()
+        i += 1
     new_text = ''.join(text_symbs)
     return new_text
 
