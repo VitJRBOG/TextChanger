@@ -16,6 +16,10 @@ def check_forbidden_symbols(text):
     result = re.findall(r"[ .,;:!?]", text)
     if len(result) > 0:
         return True
+    else:
+        result = re.findall(r"[A-Za-z]", text)
+        if len(result) > 0:
+            return True
 
 
 def check_existence(new_word, changewords):
