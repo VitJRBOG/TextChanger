@@ -25,7 +25,7 @@ def remove_spaces(text):
         i = 0
         while i < len(text_symbs):
             if i > 0:
-                if len(re.findall(r"[.,!?):;]", text_symbs[i])) > 0:
+                if len(re.findall(r"[.,!?):; ]", text_symbs[i])) > 0:
                     if text_symbs[i - 1] == " ":
                         text_symbs.pop(i - 1)
             if i >= len(text_symbs):
@@ -40,7 +40,7 @@ def remove_spaces(text):
         i = 0
         while i < len(text_symbs):
             if i < len(text_symbs) - 2:
-                if len(re.findall(r"[('\"]", text_symbs[i])) > 0:
+                if len(re.findall(r"[(\n ]", text_symbs[i])) > 0:
                     if text_symbs[i + 1] == " ":
                         text_symbs.pop(i + 1)
             if i >= len(text_symbs):
