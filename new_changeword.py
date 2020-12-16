@@ -32,7 +32,7 @@ def add_word(new_word, words_json_loads):
     u"""Добавление нового слова в список."""
     PATH = data_manager.read_path()
     changewords = words_json_loads["changewords"]
-    changewords.append(new_word)
+    changewords.append(new_word.lower())
     words_json_loads["changewords"] = changewords
     data_manager.write_json(PATH + "res/", "words", words_json_loads)
 
