@@ -18,13 +18,15 @@ func cyrToLatForKeywords(origText string, keywords []string) string {
 	changedText := origText
 
 	for _, keyword := range keywords {
-		changedKeyword := keyword
+		if len(keyword) > 0 {
+			changedKeyword := keyword
 
-		for i, cyrChar := range cyrChars {
-			changedKeyword = strings.ReplaceAll(changedKeyword, cyrChar, latChars[i])
+			for i, cyrChar := range cyrChars {
+				changedKeyword = strings.ReplaceAll(changedKeyword, cyrChar, latChars[i])
+			}
+
+			changedText = strings.ReplaceAll(changedText, keyword, changedKeyword)
 		}
-
-		changedText = strings.ReplaceAll(changedText, keyword, changedKeyword)
 	}
 
 	return changedText
