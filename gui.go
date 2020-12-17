@@ -53,6 +53,8 @@ func (m *mainWindow) initMainBox() {
 
 func (m *mainWindow) initInputTextArea() {
 	m.inputTextArea = ui.NewMultilineEntry()
+	m.inputTextArea.SetText("Сюда нужно вставить текст для изменения " +
+		"и нажать одну из кнопок внизу.")
 	box := ui.NewHorizontalBox()
 	box.Append(m.inputTextArea, true)
 	m.mainBox.Append(box, true)
@@ -82,6 +84,7 @@ func (m *mainWindow) initButtons() {
 
 func (m *mainWindow) initOutputTextArea() {
 	m.outputTextArea = ui.NewMultilineEntry()
+	m.outputTextArea.SetText("Отсюда можно будет скопировать результат.")
 	m.outputTextArea.SetReadOnly(true)
 	box := ui.NewHorizontalBox()
 	box.Append(m.outputTextArea, true)
