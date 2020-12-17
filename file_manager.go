@@ -3,9 +3,20 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strings"
 )
+
+func checkFileWithKeywords() {
+	if _, err := os.Stat("keywords.txt"); os.IsNotExist(err) {
+		b := []byte("")
+		err = ioutil.WriteFile("keywords.txt", b, 0644)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+}
 
 func getKeywords() []string {
 	keywordsString := readKeywordsFile()
