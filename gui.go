@@ -96,13 +96,71 @@ func changerCyrToLatForAll(m *mainWindow) {
 
 func changerCyrToLatForKeywords(m *mainWindow) {
 	keywords := getKeywords()
-	origText := m.inputTextArea.Text()
-	changedText := cyrToLatForKeywords(origText, keywords)
-	m.outputTextArea.SetText(changedText)
+	if len(keywords) > 0 && keywords[0] != "" {
+		origText := m.inputTextArea.Text()
+		changedText := cyrToLatForKeywords(origText, keywords)
+		m.outputTextArea.SetText(changedText)
+	} else {
+		showWarningWindow("Замена символов в определенных словах невозможна: " +
+			"файл keywords.txt пуст.")
+	}
 }
 
 func changerLatToCyr(m *mainWindow) {
 	origText := m.inputTextArea.Text()
 	changedText := latToCyr(origText)
 	m.outputTextArea.SetText(changedText)
+}
+
+func showWarningWindow(warningMessage string) {
+	var w warningWindow
+	w.initWindow()
+	w.initMainBox()
+	w.initTextArea(warningMessage)
+	w.initButtonOK()
+}
+
+type warningWindow struct {
+	window  *ui.Window
+	mainBox *ui.Box
+}
+
+func (w *warningWindow) initWindow() {
+	w.window = ui.NewWindow("ВНИМАНИЕ!", 100, 100, true)
+	w.window.SetMargined(true)
+	w.window.OnClosing(func(*ui.Window) bool {
+		w.window.Hide()
+		return true
+	})
+	w.window.Show()
+}
+
+func (w *warningWindow) initMainBox() {
+	w.mainBox = ui.NewVerticalBox()
+	w.window.SetChild(w.mainBox)
+}
+
+func (w *warningWindow) initTextArea(warningMessage string) {
+	box := ui.NewVerticalBox()
+	label := ui.NewLabel(warningMessage)
+	box.Append(label, true)
+	w.mainBox.Append(box, true)
+}
+
+func (w *warningWindow) initButtonOK() {
+	box := ui.NewHorizontalBox()
+
+	leftFlexibleBox := ui.NewVerticalBox()
+	box.Append(leftFlexibleBox, true)
+
+	button := ui.NewButton("Понятно")
+	button.OnClicked(func(*ui.Button) {
+		w.window.Hide()
+	})
+	box.Append(button, false)
+
+	rightFlexibleBox := ui.NewVerticalBox()
+	box.Append(rightFlexibleBox, true)
+
+	w.mainBox.Append(box, false)
 }
