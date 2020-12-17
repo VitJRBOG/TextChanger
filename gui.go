@@ -95,8 +95,9 @@ func changerCyrToLatForAll(m *mainWindow) {
 }
 
 func changerCyrToLatForKeywords(m *mainWindow) {
+	keywords := getKeywords()
 	origText := m.inputTextArea.Text()
-	changedText := cyrToLatForKeywords(origText)
+	changedText := cyrToLatForKeywords(origText, keywords)
 	m.outputTextArea.SetText(changedText)
 }
 

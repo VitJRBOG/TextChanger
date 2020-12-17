@@ -14,10 +14,18 @@ func cyrToLatForAll(origText string) string {
 	return changedText
 }
 
-func cyrToLatForKeywords(origText string) string {
-	var changedText string
+func cyrToLatForKeywords(origText string, keywords []string) string {
+	changedText := origText
 
-	// TODO
+	for _, keyword := range keywords {
+		changedKeyword := keyword
+
+		for i, cyrChar := range cyrChars {
+			changedKeyword = strings.ReplaceAll(changedKeyword, cyrChar, latChars[i])
+		}
+
+		changedText = strings.ReplaceAll(changedText, keyword, changedKeyword)
+	}
 
 	return changedText
 }
