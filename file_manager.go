@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
 func checkFileWithKeywords() {
-	if _, err := os.Stat("keywords.txt"); os.IsNotExist(err) {
+	path := filepath.FromSlash(getPathToCurrentDir() + "/keywords.txt")
+	if _, err := os.Stat(path); os.IsNotExist(err) {
 		b := []byte("")
-		err = ioutil.WriteFile("keywords.txt", b, 0644)
+		err = ioutil.WriteFile(path, b, 0644)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -25,7 +27,8 @@ func getKeywords() []string {
 }
 
 func readKeywordsFile() string {
-	file, err := os.Open("keywords.txt")
+	path := filepath.FromSlash(getPathToCurrentDir() + "/keywords.txt")
+	file, err := os.Open(path)
 	defer file.Close()
 	if err != nil {
 		panic(err.Error())
@@ -48,4 +51,12 @@ func readKeywordsFile() string {
 func parseKeywordsString(keywordsString string) []string {
 	keywordsList := strings.Split(keywordsString, "\n")
 	return keywordsList
+}
+
+func getPathToCurrentDir() string {
+	path, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		panic(err.Error())
+	}
+	return path
 }
