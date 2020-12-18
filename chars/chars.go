@@ -1,11 +1,11 @@
-package main
+package chars
 
 import "strings"
 
 var cyrChars = []string{"у", "е", "Е", "х", "Х", "о", "О", "р", "Р", "а", "А", "с", "С"}
 var latChars = []string{"y", "e", "E", "x", "X", "o", "O", "p", "P", "a", "A", "c", "C"}
 
-func cyrToLatForAll(origText string) string {
+func CyrToLatForAll(origText string) string {
 	changedText := origText
 	for i, cyrChar := range cyrChars {
 		changedText = strings.ReplaceAll(changedText, cyrChar, latChars[i])
@@ -14,7 +14,7 @@ func cyrToLatForAll(origText string) string {
 	return changedText
 }
 
-func cyrToLatForKeywords(origText string, keywords []string) string {
+func CyrToLatForKeywords(origText string, keywords []string) string {
 	changedText := origText
 
 	for _, keyword := range keywords {
@@ -32,7 +32,7 @@ func cyrToLatForKeywords(origText string, keywords []string) string {
 	return changedText
 }
 
-func latToCyr(origText string) string {
+func LatToCyr(origText string) string {
 	changedText := origText
 	for i, latChar := range latChars {
 		changedText = strings.ReplaceAll(changedText, latChar, cyrChars[i])

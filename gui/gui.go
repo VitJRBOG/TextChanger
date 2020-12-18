@@ -1,11 +1,13 @@
-package main
+package gui
 
 import (
+	"github.com/VitJRBOG/CharChanger/chars"
+	"github.com/VitJRBOG/CharChanger/keywords"
 	"github.com/andlabs/ui"
-	_ "github.com/andlabs/ui/winmanifest"
 )
 
-func showGUI() {
+// ShowGUI отображает графическую оболочку программы
+func ShowGUI() {
 	err := ui.Main(initGUI)
 	if err != nil {
 		panic(err.Error())
@@ -93,15 +95,15 @@ func (m *mainWindow) initOutputTextArea() {
 
 func changerCyrToLatForAll(m *mainWindow) {
 	origText := m.inputTextArea.Text()
-	changedText := cyrToLatForAll(origText)
+	changedText := chars.CyrToLatForAll(origText)
 	m.outputTextArea.SetText(changedText)
 }
 
 func changerCyrToLatForKeywords(m *mainWindow) {
-	keywords := getKeywords()
+	keywords := keywords.GetKeywords()
 	if len(keywords) > 0 && keywords[0] != "" {
 		origText := m.inputTextArea.Text()
-		changedText := cyrToLatForKeywords(origText, keywords)
+		changedText := chars.CyrToLatForKeywords(origText, keywords)
 		m.outputTextArea.SetText(changedText)
 	} else {
 		showWarningWindow("Замена символов в определенных словах невозможна: " +
@@ -111,7 +113,7 @@ func changerCyrToLatForKeywords(m *mainWindow) {
 
 func changerLatToCyr(m *mainWindow) {
 	origText := m.inputTextArea.Text()
-	changedText := latToCyr(origText)
+	changedText := chars.LatToCyr(origText)
 	m.outputTextArea.SetText(changedText)
 }
 

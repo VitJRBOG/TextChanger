@@ -1,4 +1,4 @@
-package main
+package keywords
 
 import (
 	"bufio"
@@ -9,7 +9,9 @@ import (
 	"strings"
 )
 
-func checkFileWithKeywords() {
+// CheckFileWithKeywords проверяет существование файла keywords.txt,
+// если файла нет, то создает его
+func CheckFileWithKeywords() {
 	path := filepath.FromSlash(getPathToCurrentDir() + "/keywords.txt")
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		b := []byte("")
@@ -20,7 +22,8 @@ func checkFileWithKeywords() {
 	}
 }
 
-func getKeywords() []string {
+// GetKeywords получает из файла keywords.txt список слов для замены символов
+func GetKeywords() []string {
 	keywordsString := readKeywordsFile()
 	keywordsList := parseKeywordsString(keywordsString)
 	return keywordsList
