@@ -2,14 +2,17 @@
 
 {{ template "header" }}
 
-<a href="/"><button><- Назад к выбору</button></a>
+<a href="/">
+  <button><- Назад к выбору</button>
+</a>
 <br>
 <br>
 <form action="/change/cyr_to_lat_for_all" method="post">
-  <textarea id="input_area" name="input_area" style="width: 100%" placeholder="Введите текст">{{ .OrigText }}</textarea>
+  <textarea id="input_area" name="input_area" placeholder="Введите текст" style="width: 100%">{{ .OrigText }}</textarea>
   <button>Заменить буквы</button>
 </form>
-<textarea id="output_area" name="output_area" style="width: 100%" placeholder="Тут будет выведен результат">{{ .ChangedText }}</textarea>
+<textarea id="output_area" name="output_area" placeholder="Тут будет выведен результат"
+          style="width: 100%">{{ .ChangedText }}</textarea>
 
 {{ template "footer" }}
 
