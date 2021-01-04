@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/VitJRBOG/CharChanger/gui"
-	"github.com/VitJRBOG/CharChanger/keywords"
+	"github.com/VitJRBOG/TextChanger/gui"
+	"github.com/VitJRBOG/TextChanger/keywords"
 	_ "github.com/andlabs/ui/winmanifest"
 )
 

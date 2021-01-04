@@ -1,0 +1,16 @@
+{{ define "cyr_to_lat_for_all" }}
+
+{{ template "header" }}
+
+<a href="/"><button><- Назад к выбору</button></a>
+<br>
+<br>
+<form action="/change/cyr_to_lat_for_all" method="post">
+  <textarea id="input_area" name="input_area" style="width: 100%" placeholder="Введите текст">{{ .OrigText }}</textarea>
+  <button>Заменить буквы</button>
+</form>
+<textarea id="output_area" name="output_area" style="width: 100%" placeholder="Тут будет выведен результат">{{ .ChangedText }}</textarea>
+
+{{ template "footer" }}
+
+{{ end }}
