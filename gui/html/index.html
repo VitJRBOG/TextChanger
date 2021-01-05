@@ -2,15 +2,50 @@
 
 {{ template "header" }}
 
-<a href="/form/cyr_to_lat_for_all">
-  <button>Замена кириллицы на латиницу (все слова)</button>
-</a><br>
-<a href="/form/cyr_to_lat_for_keywords">
-  <button>Замена кириллицы на латиницу (ключевые слова)</button>
-</a><br>
-<a href="/form/lat_to_cyr">
-  <button>Замена латиницы на кириллицу</button>
-</a><br>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky">
+        <ul class="nav flex-column">
+          <li>
+            <a class="nav-link active" aria-current="page" href="/">
+              Инструкция
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/form/cyr_to_lat_for_all">
+              Всю кир. на лат.
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/form/cyr_to_lat_for_keywords">
+              Кир. на. лат.
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/form/lat_to_cyr">
+              Лат. на кир.
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <h1 class="h3 border-bottom pt-3 pb-2">
+        Инструкция
+      </h1>
+      <h6>1. Скопировать текст, подлежащий обработке.</h6><br>
+      <h6>2. Выбрать нужный раздел из списка в левой части окна.</h6><br>
+      <h6>3. Вставить скопированный текст в верхнее поле.</h6><br>
+      <h6>4. Нажать кнопку «Заменить буквы».</h6><br>
+      <h6>5. Скопировать результат обработки из нижнего поля.</h6><br>
+    </main>
+
+  </div>
+</div>
 
 {{ template "footer" }}
 
