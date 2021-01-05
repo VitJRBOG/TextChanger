@@ -1,6 +1,5 @@
 /.vscode
 .DS_Store*
-/res
 /junk
 *.pyc
 path.txt
