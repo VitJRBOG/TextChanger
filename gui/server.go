@@ -19,6 +19,7 @@ func initServer() {
 	rtr.HandleFunc("/change/lat_to_cyr", latToCyrHandler).Methods("POST")
 	rtr.HandleFunc("/keywords_are_missing", keywordsAreMissingHandler).Methods("GET")
 
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("gui/static/"))))
 	http.Handle("/", rtr)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
