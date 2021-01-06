@@ -6,6 +6,8 @@ import (
 	"github.com/gorilla/mux"
 	"html/template"
 	"net/http"
+	"os"
+	"path/filepath"
 )
 
 func initServer() {
@@ -19,7 +21,10 @@ func initServer() {
 	rtr.HandleFunc("/change/lat_to_cyr", latToCyrHandler).Methods("POST")
 	rtr.HandleFunc("/keywords_are_missing", keywordsAreMissingHandler).Methods("GET")
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("gui/static/"))))
+	pathToCurrentDir := getPathToCurrentDir() + "/"
+
+	http.Handle("/static/", http.StripPrefix("/static/",
+		http.FileServer(http.Dir(pathToCurrentDir+"gui/static/"))))
 	http.Handle("/", rtr)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
@@ -122,16 +127,26 @@ func keywordsAreMissingHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func parseHtmlFiles() *template.Template {
+	pathToCurrentDir := getPathToCurrentDir() + "/"
+
 	tmplt, err := template.ParseFiles(
-		"gui/html/header.html",
-		"gui/html/index.html",
-		"gui/html/keywords_are_missing.html",
-		"gui/html/cyr_to_lat_for_all.html",
-		"gui/html/cyr_to_lat_for_keywords.html",
-		"gui/html/lat_to_cyr.html",
-		"gui/html/footer.html")
+		pathToCurrentDir+"gui/html/header.html",
+		pathToCurrentDir+"gui/html/index.html",
+		pathToCurrentDir+"gui/html/keywords_are_missing.html",
+		pathToCurrentDir+"gui/html/cyr_to_lat_for_all.html",
+		pathToCurrentDir+"gui/html/cyr_to_lat_for_keywords.html",
+		pathToCurrentDir+"gui/html/lat_to_cyr.html",
+		pathToCurrentDir+"gui/html/footer.html")
 	if err != nil {
 		panic(err.Error())
 	}
 	return tmplt
+}
+
+func getPathToCurrentDir() string {
+	path, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		panic(err.Error())
+	}
+	return path
 }
