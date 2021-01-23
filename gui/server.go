@@ -2,6 +2,7 @@ package gui
 
 import (
 	"github.com/VitJRBOG/TextChanger/chars"
+	"github.com/VitJRBOG/TextChanger/formatting"
 	"github.com/VitJRBOG/TextChanger/keywords"
 	"github.com/gorilla/mux"
 	"html/template"
@@ -16,9 +17,11 @@ func initServer() {
 	rtr.HandleFunc("/form/cyr_to_lat_for_all", cyrToLatForAllFormHandler).Methods("GET")
 	rtr.HandleFunc("/form/cyr_to_lat_for_keywords", cyrToLatForKeywordsFormHandler).Methods("GET")
 	rtr.HandleFunc("/form/lat_to_cyr", latToCyrFormHandler).Methods("GET")
+	rtr.HandleFunc("/form/formatting", formattingFormHandler).Methods("GET")
 	rtr.HandleFunc("/change/cyr_to_lat_for_all", cyrToLatForAllHandler).Methods("POST")
 	rtr.HandleFunc("/change/cyr_to_lat_for_keywords", cyrToLatForKeywordsHandler).Methods("POST")
 	rtr.HandleFunc("/change/lat_to_cyr", latToCyrHandler).Methods("POST")
+	rtr.HandleFunc("/change/formatting", formattingHandler).Methods("POST")
 	rtr.HandleFunc("/keywords_are_missing", keywordsAreMissingHandler).Methods("GET")
 
 	pathToCurrentDir := getPathToCurrentDir() + "/"
@@ -62,6 +65,15 @@ func latToCyrFormHandler(w http.ResponseWriter, r *http.Request) {
 	tmplt := parseHtmlFiles()
 
 	err := tmplt.ExecuteTemplate(w, "lat_to_cyr", nil)
+	if err != nil {
+		panic(err.Error())
+	}
+}
+
+func formattingFormHandler(w http.ResponseWriter, r *http.Request) {
+	tmplt := parseHtmlFiles()
+
+	err := tmplt.ExecuteTemplate(w, "formatting", nil)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -117,6 +129,19 @@ func latToCyrHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func formattingHandler(w http.ResponseWriter, r *http.Request) {
+	text.OrigText = r.FormValue("input_area")
+
+	text.ChangedText = formatting.FormatText(text.OrigText)
+
+	tmplt := parseHtmlFiles()
+
+	err := tmplt.ExecuteTemplate(w, "formatting", text)
+	if err != nil {
+		panic(err.Error())
+	}
+}
+
 func keywordsAreMissingHandler(w http.ResponseWriter, r *http.Request) {
 	tmplt := parseHtmlFiles()
 
@@ -136,6 +161,7 @@ func parseHtmlFiles() *template.Template {
 		pathToCurrentDir+"gui/html/cyr_to_lat_for_all.html",
 		pathToCurrentDir+"gui/html/cyr_to_lat_for_keywords.html",
 		pathToCurrentDir+"gui/html/lat_to_cyr.html",
+		pathToCurrentDir+"gui/html/formatting.html",
 		pathToCurrentDir+"gui/html/footer.html")
 	if err != nil {
 		panic(err.Error())

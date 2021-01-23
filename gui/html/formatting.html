@@ -1,8 +1,6 @@
-{{ define "index" }}
+{{ define "formatting" }}
 
 {{ template "header" }}
-
-<body>
 
 <div class="container-fluid">
   <div class="row">
@@ -10,7 +8,7 @@
       <div class="position-sticky">
         <ul class="nav flex-column">
           <li>
-            <a class="nav-link active" aria-current="page" href="/">
+            <a class="nav-link" href="/">
               Инструкция
             </a>
           </li>
@@ -30,7 +28,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/form/formatting">
+            <a class="nav-link active" aria-current="page" href="/form/formatting">
               Форматирование
             </a>
           </li>
@@ -40,13 +38,19 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <h1 class="h3 border-bottom pt-3 pb-2">
-        Инструкция
+        Форматирование текста
       </h1>
-      <h6>1. Скопировать текст, подлежащий обработке.</h6><br>
-      <h6>2. Выбрать нужный раздел из списка в левой части окна.</h6><br>
-      <h6>3. Вставить скопированный текст в верхнее поле.</h6><br>
-      <h6>4. Нажать кнопку «Заменить буквы».</h6><br>
-      <h6>5. Скопировать результат обработки из нижнего поля.</h6><br>
+      <form action="/change/formatting" method="post">
+        <a class="navbar-brand"></a>
+        <textarea class="form-control w-100" id="input_area" name="input_area"
+                  placeholder="Введите текст" style="width: 100%">{{ .OrigText }}</textarea>
+        <div class="pt-3 pb-2 mb-2">
+          <button class="btn btn-sm btn-outline-secondary">Отформатировать</button>
+        </div>
+      </form>
+      <textarea class="form-control w-100" id="output_area" name="output_area"
+                placeholder="Тут будет выведен результат"
+                style="width: 100%">{{ .ChangedText }}</textarea>
     </main>
 
   </div>
