@@ -1,2 +1,2 @@
-# CharChanger
-Utility for change of symbols in the text.
+# TextChanger
+Utility for changing a characters, formatting and censoring the text.
