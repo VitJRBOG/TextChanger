@@ -3,13 +3,12 @@ package gui
 import (
 	"github.com/VitJRBOG/TextChanger/censorship"
 	"github.com/VitJRBOG/TextChanger/chars"
+	"github.com/VitJRBOG/TextChanger/file_manager"
 	"github.com/VitJRBOG/TextChanger/formatting"
 	"github.com/VitJRBOG/TextChanger/keywords"
 	"github.com/gorilla/mux"
 	"html/template"
 	"net/http"
-	"os"
-	"path/filepath"
 )
 
 func initServer() {
@@ -28,7 +27,7 @@ func initServer() {
 	rtr.HandleFunc("/keywords_are_missing", keywordsAreMissingHandler).Methods("GET")
 	rtr.HandleFunc("/obscenewords_are_missing", obsceneWordsAreMissingHandler).Methods("GET")
 
-	pathToCurrentDir := getPathToCurrentDir() + "/"
+	pathToCurrentDir := file_manager.GetPathToCurrentDir() + "/"
 
 	http.Handle("/static/", http.StripPrefix("/static/",
 		http.FileServer(http.Dir(pathToCurrentDir+"gui/static/"))))
@@ -192,7 +191,7 @@ func obsceneWordsAreMissingHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func parseHtmlFiles() *template.Template {
-	pathToCurrentDir := getPathToCurrentDir() + "/"
+	pathToCurrentDir := file_manager.GetPathToCurrentDir() + "/"
 
 	tmplt, err := template.ParseFiles(
 		pathToCurrentDir+"gui/html/header.html",
@@ -209,12 +208,4 @@ func parseHtmlFiles() *template.Template {
 		panic(err.Error())
 	}
 	return tmplt
-}
-
-func getPathToCurrentDir() string {
-	path, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		panic(err.Error())
-	}
-	return path
 }
