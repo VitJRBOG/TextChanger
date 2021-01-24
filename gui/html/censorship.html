@@ -1,4 +1,4 @@
-{{ define "cyr_to_lat_for_keywords" }}
+{{ define "censorship" }}
 
 {{ template "header" }}
 
@@ -18,7 +18,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/form/cyr_to_lat_for_keywords">
+            <a class="nav-link" href="/form/cyr_to_lat_for_keywords">
               Кир. на. лат.
             </a>
           </li>
@@ -28,7 +28,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/form/censorship">
+            <a class="nav-link active" aria-current="page" href="/form/censorship">
               Цензура
             </a>
           </li>
@@ -43,14 +43,14 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <h1 class="h3 border-bottom pt-3 pb-2">
-        Кириллицу на латиницу (ключевые слова)
+        Обработка нецензурных выражений
       </h1>
-      <form action="/change/cyr_to_lat_for_keywords" method="post">
+      <form action="/change/censorship" method="post">
         <a class="navbar-brand"></a>
         <textarea class="form-control w-100" id="input_area" name="input_area"
                   placeholder="Введите текст" style="width: 100%">{{ .OrigText }}</textarea>
         <div class="pt-3 pb-2 mb-2">
-          <button class="btn btn-sm btn-outline-secondary">Заменить буквы</button>
+          <button class="btn btn-sm btn-outline-secondary">Провести цензуру</button>
         </div>
       </form>
       <textarea class="form-control w-100" id="output_area" name="output_area"
