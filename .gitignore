@@ -1,5 +1,1 @@
-/.vscode
-.DS_Store*
-/junk
-*.pyc
-path.txt
+.idea/

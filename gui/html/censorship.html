@@ -1,0 +1,66 @@
+{{ define "censorship" }}
+
+{{ template "header" }}
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky">
+        <ul class="nav flex-column">
+          <li>
+            <a class="nav-link" href="/">
+              Инструкция
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/form/cyr_to_lat_for_all">
+              Всю кир. на лат.
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/form/cyr_to_lat_for_keywords">
+              Кир. на. лат.
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/form/lat_to_cyr">
+              Лат. на кир.
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/form/censorship">
+              Цензура
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/form/formatting">
+              Форматирование
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <h1 class="h3 border-bottom pt-3 pb-2">
+        Обработка нецензурных выражений
+      </h1>
+      <form action="/change/censorship" method="post">
+        <a class="navbar-brand"></a>
+        <textarea class="form-control w-100" id="input_area" name="input_area"
+                  placeholder="Введите текст" style="width: 100%">{{ .OrigText }}</textarea>
+        <div class="pt-3 pb-2 mb-2">
+          <button class="btn btn-sm btn-outline-secondary">Провести цензуру</button>
+        </div>
+      </form>
+      <textarea class="form-control w-100" id="output_area" name="output_area"
+                placeholder="Тут будет выведен результат"
+                style="width: 100%">{{ .ChangedText }}</textarea>
+    </main>
+
+  </div>
+</div>
+
+{{ template "footer" }}
+
+{{ end }}
