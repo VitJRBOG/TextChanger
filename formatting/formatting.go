@@ -42,12 +42,12 @@ func removeRedundantSpaces(text string) string {
 
 func addSpacesAfterPunctuationMarks(chars []string) []string {
 	for i := 0; i < len(chars)-1; i++ {
-		match, err := regexp.MatchString("[.!?]", chars[i])
+		match, err := regexp.MatchString("[,.!?]", chars[i])
 		if err != nil {
 			panic(err.Error())
 		}
 		if match {
-			match, err := regexp.MatchString("[.!?]", chars[i+1])
+			match, err := regexp.MatchString("[,.!?]", chars[i+1])
 			if err != nil {
 				panic(err.Error())
 			}
@@ -70,7 +70,7 @@ func addSpacesAfterPunctuationMarks(chars []string) []string {
 
 func removeSpacesBeforePunctuationMarks(chars []string) []string {
 	for i := 1; i < len(chars); i++ {
-		match, err := regexp.MatchString("[.!?]", chars[i])
+		match, err := regexp.MatchString("[,.!?]", chars[i])
 		if err != nil {
 			panic(err.Error())
 		}
