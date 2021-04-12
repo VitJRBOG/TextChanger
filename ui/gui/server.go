@@ -1,14 +1,15 @@
 package gui
 
 import (
+	"html/template"
+	"net/http"
+
 	"github.com/VitJRBOG/TextChanger/censorship"
 	"github.com/VitJRBOG/TextChanger/chars"
 	"github.com/VitJRBOG/TextChanger/file_manager"
 	"github.com/VitJRBOG/TextChanger/formatting"
 	"github.com/VitJRBOG/TextChanger/keywords"
 	"github.com/gorilla/mux"
-	"html/template"
-	"net/http"
 )
 
 func initServer() {
@@ -30,7 +31,7 @@ func initServer() {
 	pathToCurrentDir := file_manager.GetPathToCurrentDir() + "/"
 
 	http.Handle("/static/", http.StripPrefix("/static/",
-		http.FileServer(http.Dir(pathToCurrentDir+"gui/static/"))))
+		http.FileServer(http.Dir(pathToCurrentDir+"ui/gui/static/"))))
 	http.Handle("/", rtr)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
@@ -194,16 +195,16 @@ func parseHtmlFiles() *template.Template {
 	pathToCurrentDir := file_manager.GetPathToCurrentDir() + "/"
 
 	tmplt, err := template.ParseFiles(
-		pathToCurrentDir+"gui/html/header.html",
-		pathToCurrentDir+"gui/html/index.html",
-		pathToCurrentDir+"gui/html/keywords_are_missing.html",
-		pathToCurrentDir+"gui/html/obscenewords_are_missing.html",
-		pathToCurrentDir+"gui/html/cyr_to_lat_for_all.html",
-		pathToCurrentDir+"gui/html/cyr_to_lat_for_keywords.html",
-		pathToCurrentDir+"gui/html/lat_to_cyr.html",
-		pathToCurrentDir+"gui/html/censorship.html",
-		pathToCurrentDir+"gui/html/formatting.html",
-		pathToCurrentDir+"gui/html/footer.html")
+		pathToCurrentDir+"ui/gui/html/header.html",
+		pathToCurrentDir+"ui/gui/html/index.html",
+		pathToCurrentDir+"ui/gui/html/keywords_are_missing.html",
+		pathToCurrentDir+"ui/gui/html/obscenewords_are_missing.html",
+		pathToCurrentDir+"ui/gui/html/cyr_to_lat_for_all.html",
+		pathToCurrentDir+"ui/gui/html/cyr_to_lat_for_keywords.html",
+		pathToCurrentDir+"ui/gui/html/lat_to_cyr.html",
+		pathToCurrentDir+"ui/gui/html/censorship.html",
+		pathToCurrentDir+"ui/gui/html/formatting.html",
+		pathToCurrentDir+"ui/gui/html/footer.html")
 	if err != nil {
 		panic(err.Error())
 	}

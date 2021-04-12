@@ -4,11 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 
 	"github.com/VitJRBOG/TextChanger/censorship"
 	"github.com/VitJRBOG/TextChanger/chars"
+	"github.com/VitJRBOG/TextChanger/file_manager"
 	"github.com/VitJRBOG/TextChanger/formatting"
 	"github.com/VitJRBOG/TextChanger/keywords"
 	"github.com/atotto/clipboard"
@@ -19,14 +19,16 @@ func ShowCLI() {
 }
 
 func initCLI() {
-	numberMenuItems := makeMainMenu()
 	for {
+		makeMainMenu()
 		userAnswer := getMenuItemNumberFromUser()
-		interpretationUserAnswer(userAnswer, numberMenuItems)
+		interpretationUserAnswer(userAnswer)
 	}
 }
 
-func makeMainMenu() int {
+func makeMainMenu() {
+	fmt.Println("[MAIN MENU]")
+
 	actions := []string{
 		"Cyr to Lat (all)", "Cyr to Lat", "Lat to Cyr", "Censorship", "Formatting",
 	}
@@ -35,63 +37,33 @@ func makeMainMenu() int {
 		fmt.Printf("%d == %s\n", i+1, item)
 	}
 
-	fmt.Println("0 == Exit")
-
-	return len(actions)
+	fmt.Println("0 == Settings")
+	fmt.Println("00 == Exit")
 }
 
-func getMenuItemNumberFromUser() string {
-	fmt.Println("-- Enter the number of menu item and press «Enter» --")
-
-	var userInput string
-	in := bufio.NewReader(os.Stdin)
-	userInput, err := in.ReadString('\n')
-	if err != nil {
-		panic(err.Error())
-	}
-
-	if len(userInput) > 0 {
-		u := strings.Split(userInput, "")
-		u = u[:len(u)-1]
-		userInput = strings.Join(u, "")
-	}
-
-	return userInput
-}
-
-func interpretationUserAnswer(userAnswer string, numberMenuItems int) {
+func interpretationUserAnswer(userAnswer string) {
 	if len(userAnswer) == 0 {
 		fmt.Println("Your input is empty...")
 		return
 	}
 
-	menuItemNumber, err := strconv.Atoi(userAnswer)
-	if err != nil {
-		if strings.Contains(strings.ToLower(err.Error()), "invalid syntax") {
-			fmt.Println("Number of menu item must be integer...")
-			return
-		} else {
-			panic(err.Error())
-		}
-	}
-
-	if menuItemNumber < numberMenuItems+1 {
-		switch menuItemNumber {
-		case 1:
-			cyrToLatForAll()
-		case 2:
-			cyrToLatForKeywords()
-		case 3:
-			latToCyr()
-		case 4:
-			goCensorship()
-		case 5:
-			goFormatting()
-		case 0:
-			os.Exit(0)
-		}
-	} else {
-		fmt.Println("Menu item number out of range...")
+	switch userAnswer {
+	case "1":
+		cyrToLatForAll()
+	case "2":
+		cyrToLatForKeywords()
+	case "3":
+		latToCyr()
+	case "4":
+		goCensorship()
+	case "5":
+		goFormatting()
+	case "0":
+		settingsMenu()
+	case "00":
+		os.Exit(0)
+	default:
+		fmt.Println("Unknown command...")
 		return
 	}
 }
@@ -156,4 +128,94 @@ func setDataToClipboard(contentForClipboard string) {
 	if err != nil {
 		panic(err.Error())
 	}
+}
+
+func settingsMenu() {
+	for {
+		cfg := file_manager.GetCfgFile()
+		makeSettingsMenu(cfg)
+		userAnswer := getMenuItemNumberFromUser()
+		ok := settingsMenuHandler(userAnswer, cfg)
+		if ok {
+			break
+		}
+	}
+}
+
+func makeSettingsMenu(cfg file_manager.Cfg) {
+	fmt.Println("[SETTINGS]")
+
+	if cfg.ConnectWebview {
+		fmt.Println("1 == Disable \"Connect webview\"")
+	} else {
+		fmt.Println("1 == Enable \"Connect webview\"")
+	}
+
+	if cfg.ShowWindow {
+		fmt.Println("2 == Disable \"Show window\"")
+	} else {
+		fmt.Println("2 == Enable \"Show window\"")
+	}
+
+	fmt.Println("00 == Back to Main menu")
+}
+
+func settingsMenuHandler(userAnswer string, cfg file_manager.Cfg) bool {
+	if len(userAnswer) == 0 {
+		fmt.Println("Your input is empty...")
+		return false
+	}
+
+	switch userAnswer {
+	case "1":
+		toggleWebviewConnection(cfg)
+	case "2":
+		toggleWindowDisplay(cfg)
+	case "00":
+		return true
+	default:
+		fmt.Println("Unknown command...")
+		return false
+	}
+
+	return true
+}
+
+func getMenuItemNumberFromUser() string {
+	fmt.Println("-- Enter the number of menu item and press «Enter» --")
+
+	var userInput string
+	in := bufio.NewReader(os.Stdin)
+	userInput, err := in.ReadString('\n')
+	if err != nil {
+		panic(err.Error())
+	}
+
+	if len(userInput) > 0 {
+		u := strings.Split(userInput, "")
+		u = u[:len(u)-1]
+		userInput = strings.Join(u, "")
+	}
+
+	return userInput
+}
+
+func toggleWebviewConnection(cfg file_manager.Cfg) {
+	if cfg.ConnectWebview {
+		cfg.ConnectWebview = false
+	} else {
+		cfg.ConnectWebview = true
+	}
+	cfg.UpdateFile()
+	fmt.Println("Config file successfully updated!")
+}
+
+func toggleWindowDisplay(cfg file_manager.Cfg) {
+	if cfg.ShowWindow {
+		cfg.ShowWindow = false
+	} else {
+		cfg.ShowWindow = true
+	}
+	cfg.UpdateFile()
+	fmt.Println("Config file successfully updated!")
 }

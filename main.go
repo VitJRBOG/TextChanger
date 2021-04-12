@@ -2,14 +2,12 @@ package main
 
 import (
 	"github.com/VitJRBOG/TextChanger/censorship"
-	"github.com/VitJRBOG/TextChanger/cli"
-	"github.com/VitJRBOG/TextChanger/gui"
 	"github.com/VitJRBOG/TextChanger/keywords"
+	"github.com/VitJRBOG/TextChanger/ui"
 )
 
 func main() {
 	keywords.CheckFileWithKeywords()
 	censorship.CheckFileWithObsceneWords()
-	go cli.ShowCLI()
-	gui.ShowGUI()
+	ui.InitUI()
 }

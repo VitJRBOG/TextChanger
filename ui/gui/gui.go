@@ -1,11 +1,16 @@
 package gui
 
-import "github.com/webview/webview"
+import (
+	"github.com/webview/webview"
+)
 
-func ShowGUI() {
-	go initServer()
-	// TODO: добавить возможность отключать отображение окна webview
-	initWebview()
+func ShowGUI(showWindow bool) {
+	if showWindow {
+		go initServer()
+		initWebview()
+	} else {
+		initServer()
+	}
 }
 
 func initWebview() {

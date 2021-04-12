@@ -8,6 +8,32 @@ import (
 	"path/filepath"
 )
 
+func CheckFileExistence(path string) bool {
+	path = filepath.FromSlash(path)
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return false
+	}
+	return true
+}
+
+func WriteToFile(path string, data []byte) error {
+	err := ioutil.WriteFile(path, data, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func ReadJSON(path string) ([]byte, error) {
+	rawData, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	return rawData, nil
+}
+
 // CheckTextFile проверяет текстовый файл по указанному пути,
 // если файл отсутствует, то функция создает его
 func CheckTextFile(path string) {
