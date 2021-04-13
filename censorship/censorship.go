@@ -1,8 +1,9 @@
 package censorship
 
 import (
-	"github.com/VitJRBOG/TextChanger/file_manager"
 	"strings"
+
+	"github.com/VitJRBOG/TextChanger/tools"
 )
 
 func CensorText(origText string, obsceneWords []string) string {
@@ -25,12 +26,12 @@ func CensorText(origText string, obsceneWords []string) string {
 // CheckFileWithKeywords проверяет существование файла obscene_words.txt,
 // если файла нет, то создает его
 func CheckFileWithObsceneWords() {
-	file_manager.CheckTextFile(file_manager.GetPathToCurrentDir() + "/obscene_words.txt")
+	tools.CheckTextFile(tools.GetPathToCurrentDir() + "/obscene_words.txt")
 }
 
 // GetObsceneWords получает из файла obscene_words.txt список слов для замены символов
 func GetObsceneWords() []string {
-	obsceneWordsString := file_manager.GetTextFromFile(file_manager.GetPathToCurrentDir() + "/obscene_words.txt")
+	obsceneWordsString := tools.GetTextFromFile(tools.GetPathToCurrentDir() + "/obscene_words.txt")
 	obsceneWordsList := parseObsceneWordsString(obsceneWordsString)
 	return obsceneWordsList
 }

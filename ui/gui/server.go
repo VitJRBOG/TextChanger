@@ -6,9 +6,9 @@ import (
 
 	"github.com/VitJRBOG/TextChanger/censorship"
 	"github.com/VitJRBOG/TextChanger/chars"
-	"github.com/VitJRBOG/TextChanger/file_manager"
 	"github.com/VitJRBOG/TextChanger/formatting"
 	"github.com/VitJRBOG/TextChanger/keywords"
+	"github.com/VitJRBOG/TextChanger/tools"
 	"github.com/gorilla/mux"
 )
 
@@ -28,7 +28,7 @@ func initServer() {
 	rtr.HandleFunc("/keywords_are_missing", keywordsAreMissingHandler).Methods("GET")
 	rtr.HandleFunc("/obscenewords_are_missing", obsceneWordsAreMissingHandler).Methods("GET")
 
-	pathToCurrentDir := file_manager.GetPathToCurrentDir() + "/"
+	pathToCurrentDir := tools.GetPathToCurrentDir() + "/"
 
 	http.Handle("/static/", http.StripPrefix("/static/",
 		http.FileServer(http.Dir(pathToCurrentDir+"ui/gui/static/"))))
@@ -192,7 +192,7 @@ func obsceneWordsAreMissingHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func parseHtmlFiles() *template.Template {
-	pathToCurrentDir := file_manager.GetPathToCurrentDir() + "/"
+	pathToCurrentDir := tools.GetPathToCurrentDir() + "/"
 
 	tmplt, err := template.ParseFiles(
 		pathToCurrentDir+"ui/gui/html/header.html",

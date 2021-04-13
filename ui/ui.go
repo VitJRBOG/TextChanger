@@ -1,14 +1,14 @@
 package ui
 
 import (
-	"github.com/VitJRBOG/TextChanger/file_manager"
+	"github.com/VitJRBOG/TextChanger/tools"
 	"github.com/VitJRBOG/TextChanger/ui/cli"
 	"github.com/VitJRBOG/TextChanger/ui/gui"
 )
 
 func InitUI() {
-	file_manager.InitCfgFile()
-	cfg := file_manager.GetCfgFile()
+	tools.InitCfgFile()
+	cfg := tools.GetCfgFile()
 
 	if cfg.ConnectWebview {
 		go cli.ShowCLI()

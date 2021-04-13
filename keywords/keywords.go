@@ -1,19 +1,20 @@
 package keywords
 
 import (
-	"github.com/VitJRBOG/TextChanger/file_manager"
 	"strings"
+
+	"github.com/VitJRBOG/TextChanger/tools"
 )
 
 // CheckFileWithKeywords проверяет существование файла keywords.txt,
 // если файла нет, то создает его
 func CheckFileWithKeywords() {
-	file_manager.CheckTextFile(file_manager.GetPathToCurrentDir() + "/keywords.txt")
+	tools.CheckTextFile(tools.GetPathToCurrentDir() + "/keywords.txt")
 }
 
 // GetKeywords получает из файла keywords.txt список слов для замены символов
 func GetKeywords() []string {
-	keywordsString := file_manager.GetTextFromFile(file_manager.GetPathToCurrentDir() + "/keywords.txt")
+	keywordsString := tools.GetTextFromFile(tools.GetPathToCurrentDir() + "/keywords.txt")
 	keywordsList := parseKeywordsString(keywordsString)
 	return keywordsList
 }

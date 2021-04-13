@@ -8,9 +8,9 @@ import (
 
 	"github.com/VitJRBOG/TextChanger/censorship"
 	"github.com/VitJRBOG/TextChanger/chars"
-	"github.com/VitJRBOG/TextChanger/file_manager"
 	"github.com/VitJRBOG/TextChanger/formatting"
 	"github.com/VitJRBOG/TextChanger/keywords"
+	"github.com/VitJRBOG/TextChanger/tools"
 	"github.com/atotto/clipboard"
 )
 
@@ -132,7 +132,7 @@ func setDataToClipboard(contentForClipboard string) {
 
 func settingsMenu() {
 	for {
-		cfg := file_manager.GetCfgFile()
+		cfg := tools.GetCfgFile()
 		makeSettingsMenu(cfg)
 		userAnswer := getMenuItemNumberFromUser()
 		ok := settingsMenuHandler(userAnswer, cfg)
@@ -142,7 +142,7 @@ func settingsMenu() {
 	}
 }
 
-func makeSettingsMenu(cfg file_manager.Cfg) {
+func makeSettingsMenu(cfg tools.Cfg) {
 	fmt.Println("[SETTINGS]")
 
 	if cfg.ConnectWebview {
@@ -160,7 +160,7 @@ func makeSettingsMenu(cfg file_manager.Cfg) {
 	fmt.Println("00 == Back to Main menu")
 }
 
-func settingsMenuHandler(userAnswer string, cfg file_manager.Cfg) bool {
+func settingsMenuHandler(userAnswer string, cfg tools.Cfg) bool {
 	if len(userAnswer) == 0 {
 		fmt.Println("Your input is empty...")
 		return false
@@ -200,7 +200,7 @@ func getMenuItemNumberFromUser() string {
 	return userInput
 }
 
-func toggleWebviewConnection(cfg file_manager.Cfg) {
+func toggleWebviewConnection(cfg tools.Cfg) {
 	if cfg.ConnectWebview {
 		cfg.ConnectWebview = false
 	} else {
@@ -210,7 +210,7 @@ func toggleWebviewConnection(cfg file_manager.Cfg) {
 	fmt.Println("Config file successfully updated!")
 }
 
-func toggleWindowDisplay(cfg file_manager.Cfg) {
+func toggleWindowDisplay(cfg tools.Cfg) {
 	if cfg.ShowWindow {
 		cfg.ShowWindow = false
 	} else {

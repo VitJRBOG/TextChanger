@@ -1,4 +1,4 @@
-package file_manager
+package tools
 
 import (
 	"bufio"
@@ -25,7 +25,7 @@ func WriteToFile(path string, data []byte) error {
 	return nil
 }
 
-func ReadJSON(path string) ([]byte, error) {
+func ReadFile(path string) ([]byte, error) {
 	rawData, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err

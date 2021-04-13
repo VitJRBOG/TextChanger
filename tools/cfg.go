@@ -1,4 +1,4 @@
-package file_manager
+package tools
 
 import "encoding/json"
 
@@ -56,7 +56,7 @@ func createCfgFile() {
 func GetCfgFile() Cfg {
 	path := GetPathToCurrentDir() + "/config.json"
 
-	data, err := ReadJSON(path)
+	data, err := ReadFile(path)
 	if err != nil {
 		panic(err.Error())
 	}
