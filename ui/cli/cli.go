@@ -70,29 +70,32 @@ func interpretationUserAnswer(userAnswer string) {
 
 func cyrToLatForAll() {
 	origText := getDataFromClipboard()
-	changedText := chars.CyrToLatForAll(origText)
+	changesNumber, changedText := chars.CyrToLatForAll(origText)
 	setDataToClipboard(changedText)
-	fmt.Println("Result of CyrToLat(all)-replacing has been copied in clipboard...")
+	fmt.Printf("Changed chars: %d.\n"+
+		"Result of CyrToLat(all)-replacing has been copied in clipboard...\n", changesNumber)
 }
 
 func cyrToLatForKeywords() {
 	keywords := keywords.GetKeywords()
 	if len(keywords) > 0 && keywords[0] != "" {
 		origText := getDataFromClipboard()
-		changedText := chars.CyrToLatForKeywords(origText, keywords)
+		changesNumber, changedText := chars.CyrToLatForKeywords(origText, keywords)
 		setDataToClipboard(changedText)
+		fmt.Printf("Changed chars: %d.\n"+
+			"Result of CyrToLat-replacing has been copied in clipboard...\n", changesNumber)
 	} else {
 		fmt.Println("The keywords file (keywords.txt) is empty. " +
 			"Letters replacing in keywords is not possible.")
 	}
-	fmt.Println("Result of CyrToLat-replacing has been copied in clipboard...")
 }
 
 func latToCyr() {
 	origText := getDataFromClipboard()
-	changedText := chars.LatToCyr(origText)
+	changesNumber, changedText := chars.LatToCyr(origText)
 	setDataToClipboard(changedText)
-	fmt.Println("Result of LatToCyr-replacing has been copied in clipboard...")
+	fmt.Printf("Changed chars: %d.\n"+
+		"Result of LatToCyr-replacing has been copied in clipboard...\n", changesNumber)
 }
 
 func goCensorship() {

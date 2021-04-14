@@ -101,7 +101,7 @@ var text Text
 func cyrToLatForAllHandler(w http.ResponseWriter, r *http.Request) {
 	text.OrigText = r.FormValue("input_area")
 
-	text.ChangedText = chars.CyrToLatForAll(text.OrigText)
+	_, text.ChangedText = chars.CyrToLatForAll(text.OrigText)
 
 	tmplt := parseHtmlFiles()
 
@@ -116,7 +116,7 @@ func cyrToLatForKeywordsHandler(w http.ResponseWriter, r *http.Request) {
 
 	keywords := keywords.GetKeywords()
 	if len(keywords) > 0 && keywords[0] != "" {
-		text.ChangedText = chars.CyrToLatForKeywords(text.OrigText, keywords)
+		_, text.ChangedText = chars.CyrToLatForKeywords(text.OrigText, keywords)
 
 		tmplt := parseHtmlFiles()
 
@@ -132,7 +132,7 @@ func cyrToLatForKeywordsHandler(w http.ResponseWriter, r *http.Request) {
 func latToCyrHandler(w http.ResponseWriter, r *http.Request) {
 	text.OrigText = r.FormValue("input_area")
 
-	text.ChangedText = chars.LatToCyr(text.OrigText)
+	_, text.ChangedText = chars.LatToCyr(text.OrigText)
 
 	tmplt := parseHtmlFiles()
 
