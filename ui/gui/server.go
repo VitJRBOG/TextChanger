@@ -147,7 +147,7 @@ func censorshipHandler(w http.ResponseWriter, r *http.Request) {
 
 	obsceneWords := censorship.GetObsceneWords()
 	if len(obsceneWords) > 0 && obsceneWords[0] != "" {
-		text.ChangedText = censorship.CensorText(text.OrigText, obsceneWords)
+		_, text.ChangedText = censorship.CensorText(text.OrigText, obsceneWords)
 
 		tmplt := parseHtmlFiles()
 

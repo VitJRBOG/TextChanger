@@ -6,8 +6,10 @@ import (
 	"github.com/VitJRBOG/TextChanger/tools"
 )
 
-func CensorText(origText string, obsceneWords []string) string {
-	changedText := origText
+func CensorText(origText string, obsceneWords []string) (int, string) {
+	changesNumber := 0
+
+	words := strings.Split(origText, " ")
 
 	for _, obsceneWord := range obsceneWords {
 		if len(obsceneWord) > 1 {
@@ -16,11 +18,18 @@ func CensorText(origText string, obsceneWords []string) string {
 			for i := 1; i < len(charsFromObsceneWord); i++ {
 				censoredObsceneWord += "*"
 			}
-			changedText = strings.ReplaceAll(changedText, obsceneWord, censoredObsceneWord)
+			for n := 0; n < len(words); n++ {
+				if strings.Contains(words[n], obsceneWord) {
+					words[n] = strings.ReplaceAll(words[n], obsceneWord, censoredObsceneWord)
+					changesNumber++
+				}
+			}
 		}
 	}
 
-	return changedText
+	changedText := strings.Join(words, " ")
+
+	return changesNumber, changedText
 }
 
 // CheckFileWithKeywords проверяет существование файла obscene_words.txt,

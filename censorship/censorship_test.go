@@ -1,6 +1,8 @@
 package censorship
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestCensorText(t *testing.T) {
 	s := "Как блять пиздецки быстро меняется мир! Казалось бы, совсем недавно получал аттестат и диплом, " +
@@ -14,11 +16,15 @@ func TestCensorText(t *testing.T) {
 		"бля", "пизд", "хуй", "сук",
 	}
 
-	result := CensorText(s, obsceneWords)
+	n, result := CensorText(s, obsceneWords)
+
+	m := 5
 
 	if result != e {
 		t.Error("For:", s,
 			"\ngot:", result,
-			"\nexpected:", e)
+			"\nexpected:", e,
+			"\nchanges number got:", n,
+			"\nchanges number expected:", m)
 	}
 }

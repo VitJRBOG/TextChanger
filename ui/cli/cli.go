@@ -102,13 +102,14 @@ func goCensorship() {
 	obsceneWords := censorship.GetObsceneWords()
 	if len(obsceneWords) > 0 && obsceneWords[0] != "" {
 		origText := getDataFromClipboard()
-		changedText := censorship.CensorText(origText, obsceneWords)
+		changesNumber, changedText := censorship.CensorText(origText, obsceneWords)
 		setDataToClipboard(changedText)
+		fmt.Printf("Censored words: %d\n"+
+			"Result of censorship has been copied in clipboard...\n", changesNumber)
 	} else {
 		fmt.Println("The file with obscene words (obscene_words.txt) is empty. " +
 			"Censorship is not possible.")
 	}
-	fmt.Println("Result of censorship has been copied in clipboard...")
 }
 
 func goFormatting() {
